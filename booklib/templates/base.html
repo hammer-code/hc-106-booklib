@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %} Book Library</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}" />
+    {% endblock %}
+  </head>
+  <body>
+    <div class="header">
+      <header class="header-nav">
+        <div>Book Library</div>
+        <nav class="nav">
+          <ul>
+            <li>My Library</li>
+            <li>Register</li>
+            <li>Login</li>
+            <li>Logout</li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+    <main class="content">{% block content %}{% endblock %}</main>
+    <footer class="footer">&copy; Copyright 2021 by you.</footer>
+  </body>
+</html>
