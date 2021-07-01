@@ -1,1 +1,22 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% block title %} {% endblock %} 
+{% block content %}
+  <section class="books">
+  {% for book in books %}
+    <article class="book">
+      <img class="book-img" src="{{ book.image_url }}" alt="{{ book.title }}">
+      <div class="book-section">
+        <h2 class="book-title">{{ book.title }}</h2>
+        <p class="book-author">Penulis: {{ book.author }}</p>
+        <p class="book-published">Tanggal Terbit: {{ book.published }}</p>
+        <p class="book-quantity">Jumlah Tersedia: {{ book.quantity }}</p>
+      </div>
+      <div class="book-actions">
+        <form action="">
+          <button class="btn btn-borrow" type="submit">Pinjam</button>
+        </form>
+      </div>
+    </article>
+  {% endfor %}
+  </section>
+{% endblock %}

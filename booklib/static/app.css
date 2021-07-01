@@ -39,3 +39,58 @@ body {
   padding: 10px 0;
   text-align: center;
 }
+
+.books {
+  margin: 50px 0;
+}
+
+.book {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.book-img {
+  width: 100px;
+}
+
+.book-section {
+  padding: 0 10px;
+}
+
+.book-title {
+  margin: 0;
+}
+
+.book-author {
+  margin: 10px 0;
+}
+
+.book-published {
+  margin: 10px 0;
+}
+
+.book-quantity {
+  margin: 10px 0;
+}
+
+.book-actions {
+  /* margin-left: 10px; */
+}
+
+.btn {
+  padding: 10px 20px;
+  border: 0;
+}
+
+.btn-borrow {
+  background-color: #ffd11a;
+  color: #FFFFFF;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.btn-borrow:hover {
+  background-color: #ff9900;
+  cursor: pointer;
+}
