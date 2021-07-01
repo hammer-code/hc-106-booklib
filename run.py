@@ -1,7 +1,6 @@
-from flask import Flask
+from booklib.app import create_app
 
-app = Flask(__name__)
+app = create_app()
 
-@app.route("/")
-def hello_world():
-  return "<p>Hello, World!</p>"
+if __name__ == 'main':
+  app.run(host='0.0.0.0', port='6000')
