@@ -6,4 +6,4 @@ def create_app():
   command.init_command(app)
   return app
 
-app = create_app();
+app = create_app()
