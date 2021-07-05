@@ -3,10 +3,10 @@ import mysql.connector
 from flask import g
 
 db_config = {
-  'user': os.getenv('MYSQL_USER'),
-  'password': os.getenv('MYSQL_PASSWORD'),
-  'host': os.getenv('MYSQL_HOST'),
-  'database': os.getenv('MYSQL_DATABASE'),
+  "user": os.getenv("MYSQL_USER"),
+  "password": os.getenv("MYSQL_PASSWORD"),
+  "host": os.getenv("MYSQL_HOST"),
+  "database": os.getenv("MYSQL_DATABASE"),
 }
 
 def get_db():
@@ -17,7 +17,7 @@ def get_db():
     return g.cnx
 
 def close_db(e=None):
-  db = g.pop('cnx', None)
+  db = g.pop("cnx", None)
 
   if db is not None:
     db.close()
