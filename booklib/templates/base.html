@@ -6,32 +6,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %} Book Library</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
     {% endblock %}
   </head>
   <body>
-    <div class="header">
-      <header class="header-nav">
-        <div class="logo"><a href="{{ url_for('index') }}">Book Library</a></div>
+    <div class="w-full bg-blue-500 text-white">
+      <header class="flex items-center justify-between max-w-4xl mx-auto py-5">
+        <div class="logo">
+          <a href="{{ url_for('index') }}">Book Library</a>
+        </div>
         <nav class="nav">
           <ul>
-            <li>
+            <li class="inline-block mr-4">
               <a href="">My Library</a>
             </li>
-            <li>
+            <li class="inline-block mr-4">
+              <a href="{{ url_for('authors_index') }}">Authors</a>
+            </li>
+            <li class="inline-block mr-4">
+              <a href="">Books</a>
+            </li>
+            <li class="inline-block mr-4">
               <a href="">Register</a>
             </li>
-            <li>
+            <li class="inline-block mr-4">
               <a href="">Login</a>
             </li>
-            <li>
+            <li class="inline-block">
               <a href="">Logout</a>
             </li>
           </ul>
         </nav>
       </header>
     </div>
-    <main class="content">{% block content %}{% endblock %}</main>
-    <footer class="footer">&copy; Copyright 2021 by you.</footer>
+    <main class="w-full my-10">{% block content %}{% endblock %}</main>
+    <footer class="w-full text-center my-10">
+      &copy; Copyright 2021 by you.
+    </footer>
   </body>
 </html>
