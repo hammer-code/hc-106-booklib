@@ -1,8 +1,12 @@
 {% extends "base.html" %} {% block title %}Authors{% endblock %} {% block
 content %}
-<section class="max-w-4xl mx-auto">
+<section>
   <h1 class="text-center font-bold text-2xl mb-5">Data Authors</h1>
-  <a class="px-4 py-2 bg-blue-500 rounded text-white" href="">Add new</a>
+  <a
+    class="px-4 py-2 bg-blue-500 rounded text-white"
+    href="{{ url_for('authors_create') }}"
+    >Add new</a
+  >
   <table class="mt-5 table-auto w-full border-collapse border border-black">
     <thead>
       <tr>

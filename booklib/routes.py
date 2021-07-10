@@ -13,3 +13,16 @@ def index():
     }
   ]
   return render_template("index.html", books=books)
+
+@app.route("/authors")
+def authors_index():
+  authors = [
+    {
+      "name": "Evans"
+    }
+  ]
+  return render_template("authors_index.html", authors=authors)
+
+@app.route("/authors/create")
+def authors_create():
+  return render_template("authors_create.html")
