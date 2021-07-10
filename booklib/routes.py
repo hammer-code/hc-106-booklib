@@ -18,6 +18,7 @@ def index():
 def authors_index():
   authors = [
     {
+      "id": 1,
       "name": "Evans"
     }
   ]
@@ -26,3 +27,11 @@ def authors_index():
 @app.route("/authors/create")
 def authors_create():
   return render_template("authors_create.html")
+
+@app.route("/authors/edit/<int:author_id>")
+def authors_edit(author_id):
+  author = {
+    "id": 1, 
+    "name": "Evans",
+  }
+  return render_template("authors_edit.html", author=author)
