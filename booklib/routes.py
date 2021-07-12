@@ -35,3 +35,33 @@ def authors_edit(author_id):
     "name": "Evans",
   }
   return render_template("authors_edit.html", author=author)
+
+@app.route("/books")
+def books_index():
+  books = [
+    {
+      "id": 1,
+      "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1287493789l/179133.jpg",
+      "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
+      "author": "Evans, Eric",
+      "published": "20 Agustus 2003",
+      "quantity": 1
+    }
+  ]
+  return render_template("books_index.html", books=books)
+
+@app.route("/books/create")
+def books_create():
+  return render_template("books_create.html")
+
+@app.route("/books/edit/<int:book_id>")
+def books_edit(book_id):
+  book = {
+    "id": 1,
+    "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1287493789l/179133.jpg",
+    "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
+    "author": "Evans, Eric",
+    "published": "20 Agustus 2003",
+    "quantity": 1
+  }
+  return render_template("books_edit.html", book=book)
