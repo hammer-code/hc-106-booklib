@@ -78,3 +78,11 @@ def books_edit(book_id):
     "quantity": 1
   }
   return render_template("books_edit.html", book=book)
+
+@app.route("/register")
+def register():
+  return render_template("register.html")
+
+@app.route("/login")
+def login():
+  return render_template("login.html")
