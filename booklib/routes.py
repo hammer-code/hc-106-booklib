@@ -51,6 +51,10 @@ def authors_edit(author_id):
   }
   return render_template("authors_edit.html", author=author)
 
+@app.route("/authors/delete/<int:author_id>")
+def authors_delete(author_id):
+  pass
+
 @app.route("/books")
 def books_index():
   books = [
@@ -91,6 +95,10 @@ def books_edit(book_id):
   }
   return render_template("books_edit.html", book=book)
 
+@app.route("/books/delete/<int:book_id>")
+def books_delete(book_id):
+  pass
+
 @app.route("/borroweds")
 def borroweds_index():
   borroweds = [
@@ -119,6 +127,10 @@ def borroweds_index():
 @app.route("/borroweds/create")
 def borroweds_create():
   return render_template("borroweds_create.html")
+
+@app.route("/borroweds/delete/<int:borrowed_id>")
+def borroweds_delete():
+  pass
 
 @app.route("/register")
 def register():
