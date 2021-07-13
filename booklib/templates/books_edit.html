@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block title %}Books Edit{% endblock %} {% block
+content %}
+<section>
+  <h1 class="text-center font-bold text-2xl mb-5">Edit Book</h1>
+  <div class="">
+    <form action="" method="post">
+      <div class="block my-2">
+        <label for="name" class="w-full">Title</label>
+        <input
+          type="text"
+          name="title"
+          class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
+          value="{{ book.title }}"
+        />
+      </div>
+      <div class="block my-2">
+        <label for="author" class="w-full">Author</label>
+        <input
+          type="text"
+          name="author"
+          class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
+          value="{{ book.author }}"
+        />
+      </div>
+      <div class="block my-2">
+        <label for="published" class="w-full">Published</label>
+        <input
+          type="date"
+          name="published"
+          class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
+          value="{{ book.published }}"
+        />
+      </div>
+      <div class="block my-2">
+        <label for="quantity" class="w-full">Quantity</label>
+        <input
+          type="number"
+          name="quantity"
+          class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
+          value="{{ book.quantity }}"
+        />
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white py-2 rounded-md my-2"
+      >
+        Edit
+      </button>
+    </form>
+  </div>
+</section>
+{% endblock %}

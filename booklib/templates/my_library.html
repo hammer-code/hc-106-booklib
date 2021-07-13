@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %} {% endblock %} {% block content %}
+<section class="max-w-4xl mx-auto">
+  {% if books %} {% for book in books %}
+  <article class="flex">
+    <img class="w-32" src="{{ book.image_url }}" alt="{{ book.title }}" />
+    <div class="ml-4">
+      <h2 class="font-bold text-2xl">{{ book.title }}</h2>
+      <p>Penulis: {{ book.author }}</p>
+      <p>Tanggal Terbit: {{ book.published }}</p>
+      <button
+        class="mt-2 py-2 px-5 bg-yellow-400 rounded-md hover:bg-yellow-600"
+      >
+        {{ book.status }}
+      </button>
+    </div>
+  </article>
+  {% endfor %} {% else %}
+  <article class="flex">
+    <h3 class="w-full text-center text-2xl">Data is empty</h3>
+  </article>
+  {% endif %}
+</section>
+{% endblock %}
