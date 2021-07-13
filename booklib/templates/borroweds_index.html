@@ -12,35 +12,89 @@ content %}
       <tr>
         <th class="border border-black">#</th>
         <th class="border border-black">Receipt</th>
-        <th class="border border-black">Image</th>
         <th class="border border-black">Title</th>
         <th class="border border-black">Student</th>
+        <th class="border border-black">Borrowed</th>
+        <th class="border border-black">Returned</th>
         <th class="border border-black">Action</th>
       </tr>
     </thead>
-    <tbody>
-      {% for borrowed in borroweds %}
+    <tbody id="list">
+      {% if borroweds %} {% for borrowed in borroweds %}
       <tr>
         <td class="text-center border border-black">{{ loop.index }}</td>
         <td class="text-center border border-black">
           {{ borrowed.receipt_number }}
         </td>
-        <td class="border border-black px-2 text-center">
-          <img
-            class="w-32"
-            src="{{ borrowed.book.image_url }}"
-            alt="{{ borrowed.book.title }}"
-          />
-        </td>
         <td class="border border-black px-2">{{ borrowed.book.title }}</td>
         <td class="border border-black px-2">{{ borrowed.student.name }}</td>
+        <td class="border border-black px-2 text-center">
+          {{ borrowed.created_at }}
+        </td>
+        <td class="border border-black px-2 text-center"></td>
         <td class="border border-black px-2">
-          <button class="text-blue-500" data-id="" onclick="">Return</button>
-          <button class="text-red-500" data-id="" onclick="">Delete</button>
+          <button
+            class="text-blue-500"
+            onclick="handleReturn(event, {{ borrowed.id }})"
+          >
+            Return
+          </button>
+          <button
+            class="text-red-500"
+            onclick="handleDelete(event, {{ borrowed.id }})"
+          >
+            Delete
+          </button>
         </td>
       </tr>
-      {% endfor %}
+      {% endfor %} {% else %}
+      <tr>
+        <td class="border border-black px-2 text-center" colspan="6">
+          Data is empty
+        </td>
+      </tr>
+      {% endif %}
     </tbody>
   </table>
 </section>
+<script>
+  const list = document.getElementById("list");
+
+  const handleReturn = function (e, id) {
+    const tr = e.target.parentNode.parentNode;
+    if (!confirm("Are you sure you want to return this?")) {
+      return;
+    }
+
+    fetch(`/borroweds/return/${id}`, {
+      method: "POST",
+    }).then(() => {
+      const returned = tr.children[5];
+      const now = new Date();
+      returned.innerHTML = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+    });
+  };
+
+  const handleDelete = function (e, id) {
+    const tr = e.target.parentNode.parentNode;
+    if (!confirm("Are you sure you want to delete this?")) {
+      return;
+    }
+
+    fetch(`/borroweds/delete/${id}`, {
+      method: "POST",
+    }).then(() => {
+      list.removeChild(tr);
+      if (list.children.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.classList = "border border-black px-2 text-center";
+        td.setAttribute("colspan", 6);
+        td.innerHTML = "Data is empty";
+        tr.appendChild(td);
+        list.appendChild(tr);
+      }
+    });
+  };
+</script>
 {% endblock %}
