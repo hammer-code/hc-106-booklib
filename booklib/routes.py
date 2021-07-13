@@ -65,7 +65,17 @@ def books_index():
 
 @app.route("/books/create")
 def books_create():
-  return render_template("books_create.html")
+  authors = [
+    {
+      "id": 1,
+      "name": "Evans"
+    },
+    {
+      "id": 2,
+      "name": "Eric"
+    }
+  ]
+  return render_template("books_create.html", authors=authors)
 
 @app.route("/books/edit/<int:book_id>")
 def books_edit(book_id):
