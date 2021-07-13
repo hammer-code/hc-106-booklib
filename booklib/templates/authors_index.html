@@ -15,8 +15,8 @@ content %}
         <th class="border border-black">Action</th>
       </tr>
     </thead>
-    <tbody>
-      {% for author in authors %}
+    <tbody id="list">
+      {% if authors %} {% for author in authors %}
       <tr>
         <td class="text-center border border-black">{{ loop.index }}</td>
         <td class="border border-black px-2">{{ author.name }}</td>
@@ -26,11 +26,47 @@ content %}
             class="text-blue-500"
             >Edit</a
           >
-          <button class="text-red-500" data-id="" onclick="">Delete</button>
+          <button
+            class="text-red-500"
+            onclick="handleDelete(event, {{ author.id }})"
+          >
+            Delete
+          </button>
         </td>
       </tr>
-      {% endfor %}
+      {% endfor %} {% else %}
+      <tr>
+        <td class="border border-black px-2 text-center" colspan="3">
+          Data is empty
+        </td>
+      </tr>
+      {% endif %}
     </tbody>
   </table>
 </section>
+<script>
+  const handleDelete = function (e, id) {
+    const list = document.getElementById("list");
+    const tr = e.target.parentNode.parentNode;
+    if (!confirm("Are you sure you want to delete this?")) {
+      return;
+    }
+
+    fetch(`/authors/delete/${id}`, {
+      method: "POST",
+    }).then(() => {
+      list.removeChild(tr);
+      if (list.children.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.classList = "border border-black px-2 text-center";
+        td.setAttribute("colspan", 3);
+        td.innerHTML = "Data is empty";
+        tr.appendChild(td);
+        list.appendChild(tr);
+      }
+    });
+  };
+</script>
+</script>
 {% endblock %}

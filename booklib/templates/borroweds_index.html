@@ -58,8 +58,6 @@ content %}
   </table>
 </section>
 <script>
-  const list = document.getElementById("list");
-
   const handleReturn = function (e, id) {
     const tr = e.target.parentNode.parentNode;
     if (!confirm("Are you sure you want to return this?")) {
@@ -76,6 +74,7 @@ content %}
   };
 
   const handleDelete = function (e, id) {
+    const list = document.getElementById("list");
     const tr = e.target.parentNode.parentNode;
     if (!confirm("Are you sure you want to delete this?")) {
       return;

@@ -5,6 +5,7 @@ from flask import render_template
 def index():
   books = [
     {
+      "id": 1,
       "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1287493789l/179133.jpg",
       "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
       "author": "Evans, Eric",
@@ -18,6 +19,7 @@ def index():
 def my_library():
   books = [
     {
+      "id": 1,
       "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1287493789l/179133.jpg",
       "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
       "author": "Evans, Eric",
@@ -93,6 +95,7 @@ def books_edit(book_id):
 def borroweds_index():
   borroweds = [
     {
+      "id": 1,
       "receipt_number": "ABCDE12345",
       "book" : {
         "id": 1,
@@ -106,7 +109,8 @@ def borroweds_index():
         "id": 1,
         "name": "Milch",
         "number": "ABCDEF"
-      }
+      },
+      "created_at": "2021-07-01"
     }
   ]
 
