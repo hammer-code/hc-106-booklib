@@ -52,7 +52,14 @@
               <a href="{{ url_for('login') }}">Login</a>
             </li>
             <li class="inline-block">
-              <a href="{{ url_for('logout') }}">Logout</a>
+              <form id="logout" action="{{ url_for('logout') }}" method="post">
+                <a
+                  href="#"
+                  onclick="document.getElementById('logout').submit();"
+                >
+                  Logout
+                </a>
+              </form>
             </li>
           </ul>
         </nav>
