@@ -13,6 +13,7 @@ def index():
       "quantity": 1
     }
   ]
+  
   return render_template("index.html", books=books)
 
 @app.route("/my_library")
@@ -27,6 +28,7 @@ def my_library():
       "status": "Dikembalikan"
     }
   ]
+
   return render_template("my_library.html", books=books)
 
 @app.route("/authors")
@@ -37,11 +39,12 @@ def authors_index():
       "name": "Evans"
     }
   ]
-  return render_template("authors_index.html", authors=authors)
+
+  return render_template("author/index.html", authors=authors)
 
 @app.route("/authors/create")
 def authors_create():
-  return render_template("authors_create.html")
+  return render_template("author/create.html")
 
 @app.route("/authors/edit/<int:author_id>")
 def authors_edit(author_id):
@@ -49,7 +52,8 @@ def authors_edit(author_id):
     "id": 1, 
     "name": "Evans",
   }
-  return render_template("authors_edit.html", author=author)
+
+  return render_template("author/edit.html", author=author)
 
 @app.route("/authors/delete/<int:author_id>")
 def authors_delete(author_id):
@@ -67,7 +71,8 @@ def books_index():
       "quantity": 1
     }
   ]
-  return render_template("books_index.html", books=books)
+
+  return render_template("book/index.html", books=books)
 
 @app.route("/books/create")
 def books_create():
@@ -81,7 +86,8 @@ def books_create():
       "name": "Eric"
     }
   ]
-  return render_template("books_create.html", authors=authors)
+
+  return render_template("book/create.html", authors=authors)
 
 @app.route("/books/edit/<int:book_id>")
 def books_edit(book_id):
@@ -93,7 +99,8 @@ def books_edit(book_id):
     "published": "20 Agustus 2003",
     "quantity": 1
   }
-  return render_template("books_edit.html", book=book)
+  
+  return render_template("book/edit.html", book=book)
 
 @app.route("/books/delete/<int:book_id>")
 def books_delete(book_id):
@@ -122,11 +129,11 @@ def borroweds_index():
     }
   ]
 
-  return render_template("borroweds_index.html", borroweds=borroweds)
+  return render_template("borrowed/index.html", borroweds=borroweds)
 
 @app.route("/borroweds/create")
 def borroweds_create():
-  return render_template("borroweds_create.html")
+  return render_template("borrowed/create.html")
 
 @app.route("/borroweds/return/<int:borrowed_id>")
 def borroweds_return():
