@@ -4,7 +4,7 @@ content %}
   <h1 class="text-center font-bold text-2xl mb-5">Data Authors</h1>
   <a
     class="px-4 py-2 bg-blue-500 rounded text-white"
-    href="{{ url_for('authors_create') }}"
+    href="{{ url_for('authors.create') }}"
     >Add new</a
   >
   <table class="mt-5 table-auto w-full border-collapse border border-black">
@@ -22,7 +22,7 @@ content %}
         <td class="border border-black px-2">{{ author.name }}</td>
         <td class="border border-black px-2">
           <a
-            href="{{ url_for('authors_edit', author_id=author.id) }}"
+            href="{{ url_for('authors.edit', author_id=author.id) }}"
             class="text-blue-500"
             >Edit</a
           >
