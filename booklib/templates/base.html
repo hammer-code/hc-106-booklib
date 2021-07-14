@@ -26,33 +26,37 @@
     <div class="w-full bg-blue-500 text-white">
       <header class="flex items-center justify-between max-w-4xl mx-auto py-5">
         <div class="logo">
-          <a href="{{ url_for('index') }}">Book Library</a>
+          <a href="{{ url_for('main.index') }}">Book Library</a>
         </div>
         <nav class="nav">
           <ul>
             <li class="inline-block mr-4">
-              <a href="{{ url_for('index') }}">Home</a>
+              <a href="{{ url_for('main.index') }}">Home</a>
             </li>
             <li class="inline-block mr-4">
-              <a href="{{ url_for('my_library') }}">My Library</a>
+              <a href="{{ url_for('main.my_library') }}">My Library</a>
             </li>
             <li class="inline-block mr-4">
-              <a href="{{ url_for('borroweds_index') }}">Borrowed</a>
+              <a href="{{ url_for('borroweds.index') }}">Borrowed</a>
             </li>
             <li class="inline-block mr-4">
-              <a href="{{ url_for('authors_index') }}">Author</a>
+              <a href="{{ url_for('authors.index') }}">Author</a>
             </li>
             <li class="inline-block mr-4">
-              <a href="{{ url_for('books_index') }}">Book</a>
+              <a href="{{ url_for('books.index') }}">Book</a>
             </li>
             <li class="inline-block mr-4">
-              <a href="{{ url_for('register') }}">Register</a>
+              <a href="{{ url_for('main.register') }}">Register</a>
             </li>
             <li class="inline-block mr-4">
-              <a href="{{ url_for('login') }}">Login</a>
+              <a href="{{ url_for('main.login') }}">Login</a>
             </li>
             <li class="inline-block">
-              <form id="logout" action="{{ url_for('logout') }}" method="post">
+              <form
+                id="logout"
+                action="{{ url_for('main.logout') }}"
+                method="post"
+              >
                 <a
                   href="#"
                   onclick="document.getElementById('logout').submit();"
