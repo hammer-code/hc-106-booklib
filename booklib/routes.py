@@ -135,8 +135,8 @@ def borroweds_index():
 def borroweds_create():
   return render_template("borrowed/create.html")
 
-@app.route("/borroweds/return/<int:borrowed_id>")
-def borroweds_return():
+@app.route("/borroweds/returned/<int:borrowed_id>")
+def borroweds_returned():
   pass
 
 @app.route("/borroweds/delete/<int:borrowed_id>")

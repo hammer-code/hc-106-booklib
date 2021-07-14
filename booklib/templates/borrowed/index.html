@@ -64,7 +64,7 @@ content %}
       return;
     }
 
-    fetch(`/borroweds/return/${id}`, {
+    fetch(`/borroweds/returned/${id}`, {
       method: "POST",
     }).then(() => {
       const returned = tr.children[5];
