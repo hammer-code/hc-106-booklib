@@ -7,6 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %} Book Library</title>
     <link
+      rel="icon"
+      href="{{ url_for('static', filename='favicon.png') }}"
+      type="image/png"
+      sizes="16x16"
+    />
+    <link
       href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
       rel="stylesheet"
     />
