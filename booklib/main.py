@@ -4,6 +4,7 @@ from booklib.command import register_command
 
 def create_app():
   app = Flask(__name__)
+  app.secret_key = b'2naAEqscuqk094HHyCiP'
   app.register_blueprint(main.bp)
   app.register_blueprint(author.bp)
   app.register_blueprint(book.bp)
