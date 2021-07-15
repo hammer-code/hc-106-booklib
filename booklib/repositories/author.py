@@ -13,7 +13,7 @@ class AuthorRepository(Repository):
   def filter_by_id(self, id):
     query = "SELECT * FROM authors WHERE id=%s"
 
-    return self.execute(query, (id,)).to_object(self.columns)
+    return self.execute(query, (id,)).to_item(self.columns)
   
   def create(self, data):
     columns = ", ".join(data.keys())
