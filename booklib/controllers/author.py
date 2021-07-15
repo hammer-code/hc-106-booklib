@@ -1,13 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, jsonify
 from booklib.db import get_db
-from booklib.models import AuthorModel
+from booklib.repositories import AuthorRepository
 
 bp = Blueprint("authors", __name__, url_prefix="/authors")
 
 @bp.route("/")
 def index():
-  model = AuthorModel(get_db())
-  authors = model.get_all()
+  repo = AuthorRepository(get_db())
+  authors = repo.get_all()
 
   return render_template("author/index.html", authors=authors)
 
@@ -17,8 +17,8 @@ def create():
     data = {
       "name": request.form["name"]
     }
-    model = AuthorModel(get_db())
-    model.create(data)
+    repo = AuthorRepository(get_db())
+    repo.create(data)
 
     return redirect("/authors")
   
@@ -31,19 +31,19 @@ def edit(author_id):
       "name": request.form["name"]
     }
 
-    model = AuthorModel(get_db())
-    model.update(author_id, data)
+    repo = AuthorRepository(get_db())
+    repo.update(author_id, data)
     
     return redirect("/authors")
     
-  model = AuthorModel(get_db())
-  author = model.filter_by_id(author_id)
+  repo = AuthorRepository(get_db())
+  author = repo.filter_by_id(author_id)
 
   return render_template("author/edit.html", author=author)
 
 @bp.route("/delete/<int:author_id>", methods=["POST"])
 def delete(author_id):
-  model = AuthorModel(get_db())
-  model.delete(author_id)
+  repo = AuthorRepository(get_db())
+  repo.delete(author_id)
 
   return jsonify({"message": "success"})
