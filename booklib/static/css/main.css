@@ -1,3 +1,11 @@
 * {
   box-sizing: border-box;
 }
+
+.error {
+  background-color: #ffaaaa;
+}
+
+.success {
+  background-color: #aaffaa;
+}
