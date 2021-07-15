@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, jsonify
+from flask import (
+  Blueprint, render_template, request, redirect, jsonify, flash
+)
 from booklib.db import get_db
 from booklib.repositories import AuthorRepository
 
@@ -14,27 +16,48 @@ def index():
 @bp.route("/create", methods=["GET", "POST"])
 def create():
   if request.method == "POST":
-    data = {
-      "name": request.form["name"]
-    }
-    repo = AuthorRepository(get_db())
-    repo.create(data)
+    error = None
+    name = request.form["name"]
 
-    return redirect("/authors")
+    if not name:
+      error = "Name is required"
+      category = "error"
+
+    if error is None:
+      data = {
+        "name": name
+      }
+      repo = AuthorRepository(get_db())
+      repo.create(data)
+      flash("Author is created", "success")
+
+      return redirect("/authors")
+
+    flash(error, category)
   
   return render_template("author/create.html")
 
 @bp.route("/edit/<int:author_id>", methods=["GET", "POST"])
 def edit(author_id):
   if request.method == "POST":
-    data = {
-      "name": request.form["name"]
-    }
+    error = None
+    name = request.form["name"]
 
-    repo = AuthorRepository(get_db())
-    repo.update(author_id, data)
+    if not name:
+      error = "Name is required"
+      category = "error"
+
+    if error is None:
+      data = {
+        "name": request.form["name"]
+      }
+      repo = AuthorRepository(get_db())
+      repo.update(author_id, data)
+      flash("Author is updated", "success")
+      
+      return redirect("/authors")
     
-    return redirect("/authors")
+    flash(error, category)
     
   repo = AuthorRepository(get_db())
   author = repo.filter_by_id(author_id)
@@ -45,5 +68,6 @@ def edit(author_id):
 def delete(author_id):
   repo = AuthorRepository(get_db())
   repo.delete(author_id)
+  flash("Author is deleted", "success")
 
-  return jsonify({"message": "success"})
+  return redirect("/authors")
