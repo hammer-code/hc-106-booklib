@@ -5,13 +5,10 @@ name = "pypi"
 
 [packages]
 flask = "*"
-flask-sqlalchemy = "*"
 mysql-connector-python = "*"
 python-dotenv = "*"
 
 [dev-packages]
-flake8 = "*"
-pep8 = "*"
 
 [requires]
 python_version = "3.9.6"
