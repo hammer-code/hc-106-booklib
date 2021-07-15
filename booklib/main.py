@@ -1,5 +1,5 @@
 from flask import Flask
-from booklib.app import main, author, book, borrowed
+from booklib.controllers import main, author, book, borrowed
 from booklib.command import register_command
 
 def create_app():
