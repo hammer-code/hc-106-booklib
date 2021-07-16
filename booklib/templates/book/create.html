@@ -3,7 +3,7 @@ content %}
 <section>
   <h1 class="text-center font-bold text-2xl mb-5">Create Book</h1>
   <div class="">
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
       <div class="block my-2">
         <label for="name" class="w-full">Title</label>
         <input
@@ -17,7 +17,7 @@ content %}
         <div id="authorsWrapper">
           <div class="flex w-full items-center">
             <select
-              name="authors[]"
+              name="authors"
               class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
             >
               <option value=""></option>
@@ -66,7 +66,8 @@ content %}
 </section>
 <script type="text/javascript">
   const authors = {{ authors|safe }};
-  const addAuthorField= () => {
+
+  const addAuthorField = () => {
     const authorWrapper = document.getElementById("authorsWrapper");
     const authorCount = authorWrapper.children.length;
     const authorDiv = document.createElement("div");
@@ -81,7 +82,7 @@ content %}
     })
     const authorSelect = document.createElement("select");
     authorSelect.classList = "w-full border border-blue-500 rounded-md py-1 px-2 my-2";
-    authorSelect.name = "authors[]";
+    authorSelect.name = "authors";
     const emptyOption = document.createElement("option");
     authorSelect.appendChild(emptyOption);
     authors.map((author) => {
