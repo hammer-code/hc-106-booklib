@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `authors` (
 CREATE TABLE IF NOT EXISTS `books` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `published_date` date NOT NULL,
+  `published` date NOT NULL,
   `quantity` int(11) NOT NULL,
   `image_url` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
