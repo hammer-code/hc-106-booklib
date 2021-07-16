@@ -14,13 +14,44 @@ content %}
         />
       </div>
       <div class="block my-2">
-        <label for="author" class="w-full">Author</label>
-        <input
-          type="text"
-          name="author"
-          class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
-          value="{{ book.author }}"
-        />
+        <label for="authors" class="w-full">Author</label>
+        <div id="authorsWrapper">
+          {% for book_author in book.authors %} {% if loop.first %}
+          <div class="flex w-full items-center">
+            <select
+              name="authors"
+              class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
+            >
+              <option value=""></option>
+              {% for author in authors %}
+              <option value="{{ author.id }}" {% if author.id == book_author.id %} selected {% endif %}>{{ author.name }}</option>
+              {% endfor %}
+            </select>
+            <a href="#" class="px-2 text-green-400" onclick="addAuthorField()">
+              +
+            </a>
+          </div>
+          {% else %}
+          <div class="flex w-full items-center" id="author_{{ loop.index }}">
+            <select
+              name="authors"
+              class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
+            >
+              <option value=""></option>
+              {% for author in authors %}
+              <option value="{{ author.id }}" {% if author.id == book_author.id %} selected {% endif %}>{{ author.name }}</option>
+              {% endfor %}
+            </select>
+            <a
+              href="#"
+              class="px-2 text-red-400"
+              onclick="removeAuthorFields({{ loop.index }})"
+            >
+              -
+            </a>
+          </div>
+          {% endif %} {% endfor %}
+        </div>
       </div>
       <div class="block my-2">
         <label for="published" class="w-full">Published</label>
@@ -41,6 +72,9 @@ content %}
         />
       </div>
       <div class="block my-2">
+        <img src="{{ url_for('books.image', filename=book.image_url) }}" alt="{{ book.title }}">
+      </div>
+      <div class="block my-2">
         <label for="image" class="w-full">Image</label>
         <input
           type="file"
@@ -57,4 +91,41 @@ content %}
     </form>
   </div>
 </section>
+<script type="text/javascript">
+  const authors = {{ authors|safe }};
+
+  const addAuthorField = () => {
+    const authorWrapper = document.getElementById("authorsWrapper");
+    const authorCount = authorWrapper.children.length;
+    const authorDiv = document.createElement("div");
+    authorDiv.id = `author_${authorCount}`;
+    authorDiv.classList = "flex w-full items-center";
+    const authorAnchor = document.createElement("a");
+    authorAnchor.href = "#";
+    authorAnchor.classList = "px-2 text-red-400";
+    authorAnchor.text = "-";
+    authorAnchor.addEventListener("click", () => {
+      removeAuthorFields(authorCount);
+    })
+    const authorSelect = document.createElement("select");
+    authorSelect.classList = "w-full border border-blue-500 rounded-md py-1 px-2 my-2";
+    authorSelect.name = "authors";
+    const emptyOption = document.createElement("option");
+    authorSelect.appendChild(emptyOption);
+    authors.map((author) => {
+      authorOption = document.createElement("option");
+      authorOption.value = author.id;
+      authorOption.text = author.name;
+      authorSelect.appendChild(authorOption);
+    })
+    authorDiv.appendChild(authorSelect);
+    authorDiv.appendChild(authorAnchor);
+    authorWrapper.appendChild(authorDiv);
+  }
+
+  const removeAuthorFields = (id) => {
+    const div = document.getElementById(`author_${id}`)
+    div.parentNode.removeChild(div);
+  }
+</script>
 {% endblock %}

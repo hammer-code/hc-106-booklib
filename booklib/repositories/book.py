@@ -22,6 +22,5 @@ class BookRepository(Repository):
       for book_author in book_authors
     ]
     result["authors"] = authors
-    result["authors_num"] = len(authors)
 
     return result

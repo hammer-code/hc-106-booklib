@@ -103,10 +103,12 @@ def create():
 @bp.route("/edit/<int:book_id>")
 def edit(book_id):
   cnx = get_db()
-  repo = BookRepository(cnx)
-  book = repo.filter_by_id(book_id)
-  
-  return render_template("book/edit.html", book=book)
+  book_repo = BookRepository(cnx)
+  book = book_repo.filter_by_id(book_id)
+  author_repo = AuthorRepository(cnx)
+  authors = author_repo.get_all_select(("id", "name"))
+
+  return render_template("book/edit.html", book=book, authors=authors)
 
 @bp.route("/delete/<int:book_id>")
 def delete(book_id):
