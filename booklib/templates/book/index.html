@@ -24,7 +24,11 @@
       <tr>
         <td class="text-center border border-black">{{ loop.index }}</td>
         <td class="border border-black px-2 text-center">
-          <img class="w-32" src="{{ book.image_url }}" alt="{{ book.title }}" />
+          <img
+            class="w-32"
+            src="{{ url_for('books.image', filename=book.image_url) }}"
+            alt="{{ book.title }}"
+          />
         </td>
         <td class="border border-black px-2">{{ book.title }}</td>
         <td class="border border-black px-2">{{ book.author }}</td>
