@@ -1,5 +1,5 @@
 from flask import (
-  Blueprint, render_template, request, redirect, jsonify, flash
+  Blueprint, render_template, request, redirect, flash
 )
 from booklib.db import get_db
 from booklib.repositories import AuthorRepository
