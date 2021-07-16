@@ -31,7 +31,10 @@
           />
         </td>
         <td class="border border-black px-2">{{ book.title }}</td>
-        <td class="border border-black px-2">{{ book.author }}</td>
+        <td class="border border-black px-2">
+          {% for author in book.authors %}{{ author.name }}{% if (not loop.last)
+          %}, {% endif %} {% endfor %}
+        </td>
         <td class="border border-black px-2">{{ book.published }}</td>
         <td class="border border-black px-2 text-center">
           {{ book.quantity }}
