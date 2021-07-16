@@ -47,7 +47,7 @@ class Repository:
     return self.execute(query).to_list(select)
   
   def filter_by_id(self, id):
-    query = "SELECT * FROM authors WHERE id=%s"
+    query = "SELECT * FROM {} WHERE id=%s".format(self.table_name)
 
     return self.execute(query, (id,)).to_item(self.columns)
   
@@ -59,12 +59,8 @@ class Repository:
       self.table_name, columns, values
     )
     self.execute(query, params).commit()
-    last_row_id = self.cursor.lastrowid
 
-    self.cursor.close()
-    item = self.filter_by_id(last_row_id)
-
-    return item
+    return self.filter_by_id(self.cursor.lastrowid)
   
   def update(self, id, data):
     set_query = ", ".join(
@@ -76,8 +72,9 @@ class Repository:
     query = "UPDATE {} SET {} WHERE id = %s".format(
       self.table_name, set_query
     )
+    self.execute(query, params).commit()
 
-    return self.execute(query, params).commit()
+    return self.filter_by_id(id)
   
   def delete(self, id):
     query = "DELETE FROM {} WHERE id = %s".format(
