@@ -51,6 +51,15 @@ class Repository:
 
     return self.execute(query, (id,)).to_item(self.columns)
   
+  def filter(self, data):
+    filter_query = " OR ".join(
+      ["".join([key, " = %s"]) for key in data]
+    )
+    params = tuple(data.values())
+    query = "SELECT * FROM {} WHERE {}".format(self.table_name, filter_query)
+
+    return self.execute(query, params=params).to_list(self.columns)
+  
   def create(self, data):
     columns = ", ".join(data.keys())
     values = ", ".join(["%s" for i in range(len(data))])
