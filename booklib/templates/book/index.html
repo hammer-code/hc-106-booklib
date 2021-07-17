@@ -71,20 +71,12 @@
       return;
     }
 
-    fetch(`/books/delete/${id}`, {
-      method: "POST",
-    }).then(() => {
-      list.removeChild(tr);
-      if (list.children.length === 0) {
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        td.classList = "border border-black px-2 text-center";
-        td.setAttribute("colspan", 7);
-        td.innerHTML = "Data is empty";
-        tr.appendChild(td);
-        list.appendChild(tr);
-      }
-    });
+    const form = document.createElement("form");
+    form.id = "delete";
+    form.action = `/books/delete/${id}`;
+    form.method = "post";
+    document.body.appendChild(form);
+    document.getElementById("delete").submit();
   };
 </script>
 {% endblock %}
