@@ -1,6 +1,7 @@
 from .base import Repository
 from .book_author import BookAuthorRepository
 from .author import AuthorRepository
+
 class BookRepository(Repository):
   def __init__(self, cnx):
     Repository.__init__(self, cnx)
