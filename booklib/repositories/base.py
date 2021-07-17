@@ -3,7 +3,7 @@ class Repository:
     self.cnx = cnx
 
   def execute(self, query, params=None):
-    self.cursor = self.cnx.cursor()
+    self.cursor = self.cnx.cursor(buffered=True)
     self.cursor.execute(query, params)
 
     return self
