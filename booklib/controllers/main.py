@@ -32,15 +32,3 @@ def my_library():
   ]
 
   return render_template("my_library.html", books=books)
-
-@bp.route("/register")
-def register():
-  return render_template("register.html")
-
-@bp.route("/login")
-def login():
-  return render_template("login.html")
-
-@bp.route("/logout")
-def logout():
-  pass
