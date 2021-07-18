@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `authors` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE IF NOT EXISTS `books` (
@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `borrowed` (
   `receipt_number` varchar(255) NOT NULL,
   `book_id` bigint(20) unsigned NOT NULL,
   `student_id` bigint(20) NOT NULL,
+  `returned` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY `book_id` (`book_id`),
@@ -82,4 +83,4 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2021-07-14 02:15:39
+-- 2021-07-18 12:49:46
