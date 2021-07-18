@@ -39,6 +39,8 @@ class BookRepository(Repository):
           "author_id": author_id
         }
         book_author_repo.create(data)
+  
+    return book
 
   def update(self, book_id, data):
     authors = data["authors"]
@@ -55,6 +57,8 @@ class BookRepository(Repository):
           "author_id": author_id
         }
         book_author_repo.create(data)
+    
+    return book
   
   def delete(self, book_id):
     book_author_repo = BookAuthorRepository(self.cnx)
