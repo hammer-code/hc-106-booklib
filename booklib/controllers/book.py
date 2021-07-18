@@ -72,20 +72,11 @@ def create():
         "published": published,
         "quantity": quantity,
         "image_url": image_url,
+        "authors": authors
       }
 
       bookRepo = BookRepository(cnx)
       book = bookRepo.create(data)
-
-      book_author_repo = BookAuthorRepository(cnx)
-
-      for author_id in authors:
-        if author_id != "":
-          data = {
-            "book_id": book["id"],
-            "author_id": author_id
-          }
-          book_author_repo.create(data)
 
       flash("Book is created", "success")
 
@@ -136,7 +127,7 @@ def edit(book_id):
           folder_path = "".join([os.getenv("UPLOAD_FOLDER"), '/book/'])
           image.save(os.path.join(folder_path, image_url))
           os.remove("".join(
-            [os.getenv("UPLOAD_FOLDER"), '/book/', book.image_url]
+            [os.getenv("UPLOAD_FOLDER"), '/book/', book["image_url"]]
           ))
           image_exists = True
 
@@ -148,6 +139,7 @@ def edit(book_id):
         "title": title,
         "published": published,
         "quantity": quantity,
+        "authors": authors,
       }
 
       if image_exists:
@@ -155,18 +147,6 @@ def edit(book_id):
 
       bookRepo = BookRepository(cnx)
       book = bookRepo.update(book_id, data)
-      book_author_repo = BookAuthorRepository(cnx)
-      book_authors = book_author_repo.filter({"book_id": book_id})
-      [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
-
-      for author_id in authors:
-        if author_id != "":
-          data = {
-            "book_id": book["id"],
-            "author_id": author_id
-          }
-          book_author_repo.create(data)
-
       flash("Book is updated", "success")
 
       return redirect("/books")
@@ -179,9 +159,12 @@ def edit(book_id):
 @bp.route("/delete/<int:book_id>", methods=["POST"])
 def delete(book_id):
   cnx = get_db()
-  book_author_repo = BookAuthorRepository(cnx)
-  book_authors = book_author_repo.filter({"book_id": book_id})
-  [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
+  book_repo = BookRepository(cnx)
+  book = book_repo.filter_by_id(book_id)
+  os.remove("".join(
+    [os.getenv("UPLOAD_FOLDER"), '/book/', book["image_url"]]
+  ))
+  book_repo.delete(book_id)
   flash("Book is deleted", "success")
 
   return redirect("/books")

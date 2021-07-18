@@ -25,3 +25,39 @@ class BookRepository(Repository):
     result["authors"] = authors
 
     return result
+
+  def create(self, data):
+    authors = data["authors"]
+    del(data["authors"])
+    book = super().create(data)
+    book_author_repo = BookAuthorRepository(self.cnx)
+
+    for author_id in authors:
+      if author_id != "":
+        data = {
+          "book_id": book["id"],
+          "author_id": author_id
+        }
+        book_author_repo.create(data)
+
+  def update(self, book_id, data):
+    authors = data["authors"]
+    del(data["authors"])
+    book = super().update(book_id, data)
+    book_author_repo = BookAuthorRepository(self.cnx)
+    book_authors = book_author_repo.filter({"book_id": book_id})
+    [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
+
+    for author_id in authors:
+      if author_id != "":
+        data = {
+          "book_id": book["id"],
+          "author_id": author_id
+        }
+        book_author_repo.create(data)
+  
+  def delete(self, book_id):
+    book_author_repo = BookAuthorRepository(self.cnx)
+    book_authors = book_author_repo.filter({"book_id": book_id})
+    [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
+    super().delete(book_id)
