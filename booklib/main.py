@@ -1,11 +1,6 @@
 from flask import Flask
-<<<<<<< HEAD
-from booklib.controllers import main, author, book, borrowed
-from booklib.command import register_command
-=======
-
 from booklib.controllers import main, auth, author, book, borrowed
->>>>>>> slides-3
+from booklib.command import register_command
 
 def create_app():
   app = Flask(__name__)
