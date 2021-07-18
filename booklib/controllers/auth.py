@@ -1,7 +1,4 @@
-import os
-from flask import Blueprint, render_template, request
-from booklib.db import get_db
-from booklib.repositories import UserRepository
+from flask import Blueprint, render_template
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 @bp.route("/register", methods=["GET", "POST"])
