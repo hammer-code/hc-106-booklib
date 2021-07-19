@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask_bcrypt import Bcrypt
 from booklib.controllers import main, auth, author, book, borrowed
 from booklib.command import register_command
 
@@ -12,4 +13,5 @@ def create_app():
   app.register_blueprint(book.bp)
   app.register_blueprint(borrowed.bp)
   register_command(app)
+  Bcrypt(app)
   return app
