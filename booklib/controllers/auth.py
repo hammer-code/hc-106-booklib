@@ -1,7 +1,6 @@
 from flask import (
-  Blueprint, render_template, request, flash, redirect
+  Blueprint, render_template, request, flash, redirect, current_app as app
 )
-from flask_bcrypt import  generate_password_hash
 from booklib.repositories import UserRepository, StudentRepository
 from booklib.db import get_db
 
@@ -10,7 +9,6 @@ bp = Blueprint("auth", __name__, url_prefix="/auth")
 @bp.route("/register", methods=["GET", "POST"])
 def register():
   if request.method == "POST":
-    cnx = get_db()
     student_name = request.form["name"]
     student_number = request.form["number"]
     password = request.form["password"]
@@ -23,12 +21,13 @@ def register():
       flash("Password is required", "error")
     
     if student_name and student_number and password:
+      cnx = get_db()
       user_repo = UserRepository(cnx)
       user_exists = user_repo.filter({"username": student_number})
       if not user_exists:
         user = user_repo.create({
           "username": student_number,
-          "password": generate_password_hash(password).decode("utf-8"),
+          "password": app.bcrypt.generate_password_hash(password).decode("utf-8"),
           "role": "student"
         })
 
@@ -46,8 +45,32 @@ def register():
 
   return render_template("auth/register.html")
 
-@bp.route("/login")
+@bp.route("/login", methods=["GET", "POST"])
 def login():
+  if request.method == "POST":
+    username = request.form["username"]
+    password = request.form["password"]
+    if not username:
+      flash("Username is required", "error")
+    
+    if not password:
+      flash("Password is required", "error")
+    
+    if username and password:
+      cnx = get_db()
+      user_repo = UserRepository(cnx)
+      attempted_user = user_repo.filter({"username": username})
+      if attempted_user:
+        password_check = app.bcrypt.check_password_hash(attempted_user["password"], password)
+        if password_check:
+          flash(f"{attempted_user['name']} are successfully logged in!", "success")
+          if attempted_user["role"] == "student":
+            return redirect("/my_library")
+          elif attempted_user["role"] == "admin":
+            return redirect("/borroweds")
+
+      flash("Username or password false")
+
   return render_template("auth/login.html")
 
 @bp.route("/logout")

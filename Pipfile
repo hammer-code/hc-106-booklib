@@ -8,6 +8,7 @@ flask = "*"
 mysql-connector-python = "*"
 python-dotenv = "*"
 flask-bcrypt = "*"
+flask-login = "*"
 
 [dev-packages]
 
