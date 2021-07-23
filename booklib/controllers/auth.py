@@ -40,8 +40,8 @@ def register():
         flash("You are registered!", "success")
 
         return redirect("/my_library")
-      else:
-        flash("Student already exists", "error")
+
+      flash("Student already exists", "error")
 
   return render_template("auth/register.html")
 
