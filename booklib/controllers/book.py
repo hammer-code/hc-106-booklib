@@ -1,7 +1,7 @@
 import os
 from flask import (
   Blueprint, flash, redirect, render_template, request, 
-  url_for
+  url_for, current_app as app
 )
 from booklib.db import get_db
 from booklib.repositories import (
@@ -47,11 +47,11 @@ def create():
     if not quantity:
       flash("Quantity is required", "error")
 
-    if 'image' not in request.files:
+    if "image" not in request.files:
       flash("Image is required", "error")
     else:
-      image = request.files['image']
-      if image.filename == '':
+      image = request.files["image"]
+      if image.filename == "":
         flash("Image is required", "error")
 
       if image and allowed_file(
@@ -59,7 +59,7 @@ def create():
       ):
         filename = secure_filename(image.filename)
         image_url = ".".join([generate_random_string(16), get_extension(filename)])
-        folder_path = "".join([os.getenv("UPLOAD_FOLDER"), '/book/'])
+        folder_path = "".join([app.config["UPLOAD_FOLDER"], "/book/"])
         image.save(os.path.join(folder_path, image_url))
 
     if not (
@@ -67,21 +67,18 @@ def create():
       len(authors) == author_empty and 
       image in request.files
     ):
-      data = {
+      bookRepo = BookRepository(cnx)
+      book = bookRepo.create({
         "title": title,
         "published": published,
         "quantity": quantity,
         "image_url": image_url,
         "authors": authors
-      }
-
-      bookRepo = BookRepository(cnx)
-      book = bookRepo.create(data)
+      })
 
       flash("Book is created", "success")
 
       return redirect("/books")
-
 
   author_repo = AuthorRepository(cnx)
   authors = author_repo.get_all_select(("id", "name"))
@@ -117,17 +114,17 @@ def edit(book_id):
     if not quantity:
       flash("Quantity is required", "error")
 
-    if 'image' in request.files:
-      image = request.files['image']
-      if image.filename == '' and image and allowed_file(
+    if "image" in request.files:
+      image = request.files["image"]
+      if image.filename == "" and image and allowed_file(
           image.filename, {"png", "jpg", "jpeg", "gif"}
         ):
           filename = secure_filename(image.filename)
           image_url = ".".join([generate_random_string(16), get_extension(filename)])
-          folder_path = "".join([os.getenv("UPLOAD_FOLDER"), '/book/'])
+          folder_path = "".join([os.getenv("UPLOAD_FOLDER"), "/book/"])
           image.save(os.path.join(folder_path, image_url))
           os.remove("".join(
-            [os.getenv("UPLOAD_FOLDER"), '/book/', book["image_url"]]
+            [os.getenv("UPLOAD_FOLDER"), "/book/", book["image_url"]]
           ))
           image_exists = True
 
@@ -162,7 +159,7 @@ def delete(book_id):
   book_repo = BookRepository(cnx)
   book = book_repo.filter_by_id(book_id)
   os.remove("".join(
-    [os.getenv("UPLOAD_FOLDER"), '/book/', book["image_url"]]
+    [app.config("UPLOAD_FOLDER"), "/book/", book["image_url"]]
   ))
   book_repo.delete(book_id)
   flash("Book is deleted", "success")
@@ -171,4 +168,4 @@ def delete(book_id):
 
 @bp.route("/image/<filename>")
 def image(filename):
-  return redirect(url_for('static', filename="".join(['upload/book/', filename])), code=301)
+  return redirect(url_for("static", filename="".join(["upload/book/", filename])), code=301)
