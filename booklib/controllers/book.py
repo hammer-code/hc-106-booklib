@@ -116,7 +116,7 @@ def edit(book_id):
 
     if "image" in request.files:
       image = request.files["image"]
-      if image.filename == "" and image and allowed_file(
+      if image.filename != "" and image and allowed_file(
           image.filename, {"png", "jpg", "jpeg", "gif"}
         ):
           filename = secure_filename(image.filename)
