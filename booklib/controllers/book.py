@@ -159,7 +159,7 @@ def delete(book_id):
   book_repo = BookRepository(cnx)
   book = book_repo.filter_by_id(book_id)
   os.remove("".join(
-    [app.config("UPLOAD_FOLDER"), "/book/", book["image_url"]]
+    [app.config["UPLOAD_FOLDER"], "/book/", book["image_url"]]
   ))
   book_repo.delete(book_id)
   flash("Book is deleted", "success")
