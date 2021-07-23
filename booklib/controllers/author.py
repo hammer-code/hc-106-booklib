@@ -16,49 +16,35 @@ def index():
 @bp.route("/create", methods=["GET", "POST"])
 def create():
   if request.method == "POST":
-    error = None
     name = request.form["name"]
 
     if not name:
-      error = "Name is required"
-      category = "error"
+      flash("Name is required", "error")
 
-    if error is None:
-      data = {
-        "name": name
-      }
+    if name:
       repo = AuthorRepository(get_db())
-      repo.create(data)
+      repo.create({ "name": name })
       flash("Author is created", "success")
 
       return redirect("/authors")
-
-    flash(error, category)
   
   return render_template("author/create.html")
 
 @bp.route("/edit/<int:author_id>", methods=["GET", "POST"])
 def edit(author_id):
   if request.method == "POST":
-    error = None
     name = request.form["name"]
 
     if not name:
-      error = "Name is required"
-      category = "error"
+      flash("Name is required", "error")
 
-    if error is None:
-      data = {
-        "name": request.form["name"]
-      }
+    if name:
       repo = AuthorRepository(get_db())
-      repo.update(author_id, data)
+      repo.update(author_id, { "name": name })
       flash("Author is updated", "success")
       
       return redirect("/authors")
-    
-    flash(error, category)
-    
+
   repo = AuthorRepository(get_db())
   author = repo.filter_by_id(author_id)
 
