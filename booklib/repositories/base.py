@@ -51,7 +51,7 @@ class Repository:
 
     return self.execute(query, (id,)).to_item(self.columns)
   
-  def filter(self, data):
+  def filter_by(self, data):
     filter_query = " OR ".join(
       ["".join([key, " = %s"]) for key in data]
     )

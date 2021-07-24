@@ -15,7 +15,7 @@ class BookRepository(Repository):
     result = super().transform(columns, row)
 
     book_author_repo = BookAuthorRepository(self.cnx)
-    book_authors = book_author_repo.filter({"book_id": row[0]})
+    book_authors = book_author_repo.filter_by({"book_id": row[0]})
 
     author_repo = AuthorRepository(self.cnx)
     authors = [
@@ -47,7 +47,7 @@ class BookRepository(Repository):
     del(data["authors"])
     book = super().update(book_id, data)
     book_author_repo = BookAuthorRepository(self.cnx)
-    book_authors = book_author_repo.filter({"book_id": book_id})
+    book_authors = book_author_repo.filter_by({"book_id": book_id})
     [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
 
     for author_id in authors:
@@ -62,6 +62,6 @@ class BookRepository(Repository):
   
   def delete(self, book_id):
     book_author_repo = BookAuthorRepository(self.cnx)
-    book_authors = book_author_repo.filter({"book_id": book_id})
+    book_authors = book_author_repo.filter_by({"book_id": book_id})
     [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
     super().delete(book_id)
