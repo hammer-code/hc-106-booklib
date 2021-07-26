@@ -1,4 +1,4 @@
-from flask import session, g, redirect, abort
+from flask import session, g, redirect, abort, request
 from booklib.db import get_db
 from booklib.repositories import UserRepository
 
@@ -12,14 +12,22 @@ def load_user(app):
       del user["password"]
       g.user = user
 
+def is_guest(func):
+  if "user_id" not in session:
+    func()
+  
+  return redirect("/")
+
 def is_authenticated(func):
   if "user_id" in session:
-      user = user_repo.filter_by_id(session["user_id"])
+    user = user_repo.filter_by_id(session["user_id"])
+    
+    if len(user) > 0:
+      func()
+    
+    abort(403)
       
-      if len(user) > 0:
-        func()
-      
-      redirect("/auth/login")
+  redirect("/auth/login")
 
 def is_admin(func):
   if "user_id" in session:

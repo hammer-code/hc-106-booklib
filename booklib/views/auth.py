@@ -1,6 +1,6 @@
 from flask import (
   Blueprint, render_template, request, flash, 
-  redirect, current_app as app, session
+  redirect, current_app as app, session, g
 )
 from booklib.repositories import UserRepository, StudentRepository
 from booklib.db import get_db
@@ -80,6 +80,9 @@ def login():
 
   return render_template("auth/login.html")
 
-@bp.route("/logout")
+@bp.route("/logout", methods=["POST"])
 def logout():
-  pass
+  g.pop("user", None)
+  session.pop("user_id", None)
+  
+  return redirect("/auth/login")
