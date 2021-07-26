@@ -1,5 +1,6 @@
 from flask import (
-  Blueprint, render_template, request, flash, redirect, current_app as app
+  Blueprint, render_template, request, flash, 
+  redirect, current_app as app, session
 )
 from booklib.repositories import UserRepository, StudentRepository
 from booklib.db import get_db
@@ -24,6 +25,7 @@ def register():
       cnx = get_db()
       user_repo = UserRepository(cnx)
       user_exists = user_repo.filter({"username": student_number})
+
       if not user_exists:
         user = user_repo.create({
           "username": student_number,
@@ -38,8 +40,12 @@ def register():
           "number": student_number,
         })
         flash("You are registered!", "success")
+        session["user_id"] = user["id"]
 
-        return redirect("/my_library")
+        if user["role"] == "student":
+          return redirect("/my_library")
+        elif user["role"] == "admin":
+          return redirect("/borroweds")
 
       flash("Student already exists", "error")
 
@@ -59,11 +65,15 @@ def login():
     if username and password:
       cnx = get_db()
       user_repo = UserRepository(cnx)
-      attempted_user = user_repo.filter({"username": username})
+      attempted_user = user_repo.filter_by({"username": username})[0]
+
       if attempted_user:
-        password_check = app.bcrypt.check_password_hash(attempted_user["password"], password)
+        password_check = app.bcrypt.check_password_hash(attempted_user['password'], password)
+
         if password_check:
-          flash(f"{attempted_user['name']} are successfully logged in!", "success")
+          flash("{} are successfully logged in!".format(attempted_user["username"]), "success")
+          session["user_id"] = attempted_user["id"]
+
           if attempted_user["role"] == "student":
             return redirect("/my_library")
           elif attempted_user["role"] == "admin":
