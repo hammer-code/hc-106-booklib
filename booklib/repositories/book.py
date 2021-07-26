@@ -14,10 +14,10 @@ class BookRepository(Repository):
   def transform(self, columns, row):
     result = super().transform(columns, row)
 
-    book_author_repo = BookAuthorRepository(self.cnx)
+    book_author_repo = BookAuthorRepository()
     book_authors = book_author_repo.filter_by({"book_id": row[0]})
 
-    author_repo = AuthorRepository(self.cnx)
+    author_repo = AuthorRepository()
     authors = [
       author_repo.filter_by_id(book_author["author_id"])
       for book_author in book_authors
@@ -30,7 +30,7 @@ class BookRepository(Repository):
     authors = data["authors"]
     del(data["authors"])
     book = super().create(data)
-    book_author_repo = BookAuthorRepository(self.cnx)
+    book_author_repo = BookAuthorRepository()
 
     for author_id in authors:
       if author_id != "":
@@ -46,7 +46,7 @@ class BookRepository(Repository):
     authors = data["authors"]
     del(data["authors"])
     book = super().update(book_id, data)
-    book_author_repo = BookAuthorRepository(self.cnx)
+    book_author_repo = BookAuthorRepository()
     book_authors = book_author_repo.filter_by({"book_id": book_id})
     [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
 
@@ -61,7 +61,7 @@ class BookRepository(Repository):
     return book
   
   def delete(self, book_id):
-    book_author_repo = BookAuthorRepository(self.cnx)
+    book_author_repo = BookAuthorRepository()
     book_authors = book_author_repo.filter_by({"book_id": book_id})
     [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
     super().delete(book_id)
