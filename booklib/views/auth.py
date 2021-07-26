@@ -6,6 +6,8 @@ from booklib.repositories import UserRepository, StudentRepository
 from booklib.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
+user_repo = UserRepository()
+student_repo = StudentRepository()
 
 @bp.route("/register", methods=["GET", "POST"])
 def register():
@@ -22,8 +24,6 @@ def register():
       flash("Password is required", "error")
     
     if student_name and student_number and password:
-      cnx = get_db()
-      user_repo = UserRepository(cnx)
       user_exists = user_repo.filter({"username": student_number})
 
       if not user_exists:
@@ -33,7 +33,6 @@ def register():
           "role": "student"
         })
 
-        student_repo = StudentRepository(cnx)
         student = student_repo.create({
           "user_id": user["id"],
           "name": student_name,
@@ -63,8 +62,6 @@ def login():
       flash("Password is required", "error")
     
     if username and password:
-      cnx = get_db()
-      user_repo = UserRepository(cnx)
       attempted_user = user_repo.filter_by({"username": username})[0]
 
       if attempted_user:

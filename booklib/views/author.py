@@ -1,15 +1,15 @@
 from flask import (
   Blueprint, render_template, request, redirect, flash
 )
-from booklib.db import get_db
 from booklib.repositories import AuthorRepository
 
 bp = Blueprint("authors", __name__, url_prefix="/authors")
 
+author_repo = AuthorRepository()
+
 @bp.route("/")
 def index():
-  repo = AuthorRepository(get_db())
-  authors = repo.get_all()
+  authors = author_repo.get_all()
 
   return render_template("author/index.html", authors=authors)
 
@@ -22,8 +22,7 @@ def create():
       flash("Name is required", "error")
 
     if name:
-      repo = AuthorRepository(get_db())
-      repo.create({ "name": name })
+      author_repo.create({ "name": name })
       flash("Author is created", "success")
 
       return redirect("/authors")
@@ -39,21 +38,18 @@ def edit(author_id):
       flash("Name is required", "error")
 
     if name:
-      repo = AuthorRepository(get_db())
-      repo.update(author_id, { "name": name })
+      author_repo.update(author_id, { "name": name })
       flash("Author is updated", "success")
       
       return redirect("/authors")
 
-  repo = AuthorRepository(get_db())
-  author = repo.filter_by_id(author_id)
+  author = author_repo.filter_by_id(author_id)
 
   return render_template("author/edit.html", author=author)
 
 @bp.route("/delete/<int:author_id>", methods=["POST"])
 def delete(author_id):
-  repo = AuthorRepository(get_db())
-  repo.delete(author_id)
+  author_repo.delete(author_id)
   flash("Author is deleted", "success")
 
   return redirect("/authors")

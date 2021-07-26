@@ -1,5 +1,7 @@
+from booklib.db import cnx
+
 class Repository:
-  def __init__(self, cnx):
+  def __init__(self):
     self.cnx = cnx
 
   def execute(self, query, params=None):
