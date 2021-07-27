@@ -10,6 +10,7 @@ from booklib.repositories import (
 from booklib.utils import (
   generate_random_string, allowed_file, get_extension
 )
+from booklib.utils.auth import is_admin, is_authenticated
 from werkzeug.utils import secure_filename
 
 bp = Blueprint("books", __name__, url_prefix="/books")
@@ -18,12 +19,14 @@ book_repo = BookRepository()
 author_repo = AuthorRepository()
 
 @bp.route("/")
+@is_authenticated
 def index():
   books = book_repo.get_all()
 
   return render_template("book/index.html", books=books)
 
 @bp.route("/create", methods=["GET", "POST"])
+@is_admin
 def create():
   if request.method == "POST":
     title = request.form["title"]
@@ -84,6 +87,7 @@ def create():
   return render_template("book/create.html", authors=authors)
 
 @bp.route("/edit/<int:book_id>", methods=["GET", "POST"])
+@is_admin
 def edit(book_id):
   book = book_repo.filter_by_id(book_id)
 
@@ -148,6 +152,7 @@ def edit(book_id):
   return render_template("book/edit.html", book=book, authors=authors)
 
 @bp.route("/delete/<int:book_id>", methods=["POST"])
+@is_admin
 def delete(book_id):
   book = book_repo.filter_by_id(book_id)
   os.remove("".join(
