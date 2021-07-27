@@ -1,6 +1,6 @@
 from flask import Flask
 
-from booklib.controllers import main, auth, author, book, borrowed
+from booklib.views import main, auth, author, book, borrowed
 
 def create_app():
   app = Flask(__name__)
