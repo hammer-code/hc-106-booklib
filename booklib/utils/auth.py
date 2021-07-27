@@ -19,7 +19,6 @@ def is_guest(f):
     if "user_id" not in session:
       return f(*args, **kwargs)
     return redirect("/")
-
   return decorated_function
 
 def is_authenticated(f):
@@ -30,7 +29,6 @@ def is_authenticated(f):
         return f(*args, **kwargs)
       return abort(403)
     return redirect("/auth/login")
-
   return decorated_function
 
 def is_admin(f):
@@ -42,7 +40,6 @@ def is_admin(f):
           return f(*args, **kwargs)
         return abort(403)
       return redirect("/auth/login")
-
   return decorated_function
 
 def is_student(f):
@@ -54,5 +51,4 @@ def is_student(f):
           return f(*args, **kwargs)
       return abort(403)
     return redirect("/auth/login")
-
   return decorated_function
