@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template
 
+
 bp = Blueprint("borroweds", __name__, url_prefix="/borroweds")
+
 
 @bp.route("/")
 def index():
@@ -24,16 +26,18 @@ def index():
       "created_at": "2021-07-01"
     }
   ]
-
   return render_template("borrowed/index.html", borroweds=borroweds)
+
 
 @bp.route("/create")
 def create():
   return render_template("borrowed/create.html")
 
+
 @bp.route("/returned/<int:borrowed_id>")
 def returned():
   pass
+
 
 @bp.route("/delete/<int:borrowed_id>")
 def delete():
