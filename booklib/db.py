@@ -1,6 +1,7 @@
 import os
 import mysql.connector
 from flask import g, current_app
+from werkzeug.local import  LocalProxy
 
 db_config = {
   "user": os.getenv("MYSQL_USER"),
@@ -14,7 +15,7 @@ def get_db():
     cnx = mysql.connector.connect(**db_config)
     g.cnx = cnx
 
-    return g.cnx
+  return g.cnx
 
 def close_db(e=None):
   db = g.pop("cnx", None)
@@ -28,3 +29,5 @@ def init_db():
   with current_app.open_resource("schema.sql") as f:
     for result in cursor.execute(f.read().decode("utf8"), multi=True):
       print(result)
+
+cnx = LocalProxy(get_db)
