@@ -8,8 +8,10 @@ flask = "*"
 mysql-connector-python = "*"
 python-dotenv = "*"
 flask-bcrypt = "*"
+black = "*"
 
 [dev-packages]
+pylint = "*"
 
 [requires]
 python_version = "3.9.6"
