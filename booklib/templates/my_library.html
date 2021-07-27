@@ -9,9 +9,7 @@
       <h2 class="font-bold text-2xl">{{ book.title }}</h2>
       <p>Penulis: {{ book.author }}</p>
       <p>Tanggal Terbit: {{ book.published }}</p>
-      <button class="mt-2 py-2 px-5 bg-yellow-400 rounded-md hover:bg-yellow-600">
-        {{ book.status }}
-      </button>
+      <p class="text-green-500">{{ book.status }}</p>
     </div>
   </article>
   {% endfor %}
