@@ -10,7 +10,7 @@ from booklib.repositories import (
 from booklib.utils import (
   generate_random_string, allowed_file, get_extension
 )
-from booklib.utils.auth import is_admin, is_authenticated
+from booklib.utils.auth import is_admin
 from werkzeug.utils import secure_filename
 
 bp = Blueprint("books", __name__, url_prefix="/books")
@@ -19,7 +19,6 @@ book_repo = BookRepository()
 author_repo = AuthorRepository()
 
 @bp.route("/")
-@is_authenticated
 def index():
   books = book_repo.get_all()
 
