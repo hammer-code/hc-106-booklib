@@ -20,7 +20,6 @@ def register():
         student_name = request.form["name"]
         student_number = request.form["number"]
         password = request.form["password"]
-
         if not student_name:
             flash("Student name is required", "error")
         if not student_number:
@@ -29,7 +28,7 @@ def register():
             flash("Password is required", "error")
 
         if student_name and student_number and password:
-            user_exists = user_repo.filter({"username": student_number})
+            user_exists = user_repo.filter_by({"username": student_number})
             if not user_exists:
                 user = user_repo.create(
                     {
@@ -40,8 +39,7 @@ def register():
                         "role": "student",
                     }
                 )
-
-                student = student_repo.create(
+                student_repo.create(
                     {
                         "user_id": user["id"],
                         "name": student_name,
@@ -49,11 +47,8 @@ def register():
                     }
                 )
                 flash("You are registered!", "success")
-
                 return redirect("/my_library")
-
             flash("Student already exists", "error")
-
     return render_template("auth/register.html")
 
 

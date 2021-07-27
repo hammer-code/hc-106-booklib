@@ -16,7 +16,6 @@ def index():
             "quantity": 1,
         }
     ]
-
     return render_template("index.html", books=books)
 
 
@@ -32,5 +31,4 @@ def my_library():
             "status": "Dikembalikan",
         }
     ]
-
     return render_template("my_library.html", books=books)
