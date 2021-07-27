@@ -91,16 +91,36 @@ def books_create():
 
 @app.route("/books/edit/<int:book_id>")
 def books_edit(book_id):
+  authors = [
+    {
+      "id": 1,
+      "name": "Evans"
+    },
+    {
+      "id": 2,
+      "name": "Eric"
+    }
+  ]
+
   book = {
     "id": 1,
     "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1287493789l/179133.jpg",
     "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
-    "author": "Evans, Eric",
+    "authors": [
+      {
+        "id": 1,
+        "name": "Evans"
+      },
+      {
+        "id": 2,
+        "name": "Eric"
+      }
+    ],
     "published": "20 Agustus 2003",
     "quantity": 1
   }
   
-  return render_template("book/edit.html", book=book)
+  return render_template("book/edit.html", book=book, authors=authors)
 
 @app.route("/books/delete/<int:book_id>")
 def books_delete(book_id):
