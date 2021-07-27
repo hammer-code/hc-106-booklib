@@ -34,21 +34,22 @@
               <li class="inline-block mr-4">
                 <a href="{{ url_for('main.index') }}">Home</a>
               </li>
-              {% if g.user %} {% if g.user.role == "student" %}
+              {% if g.user and g.user.role == "student" %}
               <li class="inline-block mr-4">
                 <a href="{{ url_for('main.my_library') }}">My Library</a>
               </li>
-              {% endif %} {% if g.user.role == "admin" %}
+              {% endif %} {% if g.user and g.user.role == "admin" %}
               <li class="inline-block mr-4">
                 <a href="{{ url_for('borroweds.index') }}">Borrowed</a>
               </li>
+              {% endif %}
               <li class="inline-block mr-4">
                 <a href="{{ url_for('authors.index') }}">Author</a>
               </li>
-              {% endif %}
               <li class="inline-block mr-4">
                 <a href="{{ url_for('books.index') }}">Book</a>
               </li>
+              {% if g.user %}
               <li class="inline-block">
                 <form
                   id="logout"
