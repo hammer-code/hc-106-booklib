@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template
 
+
 bp = Blueprint("main", __name__)
+
 
 @bp.route("/")
 def index():
@@ -14,8 +16,8 @@ def index():
       "quantity": 1
     }
   ]
-  
   return render_template("index.html", books=books)
+
 
 @bp.route("/my_library")
 def my_library():
@@ -29,5 +31,4 @@ def my_library():
       "status": "Dikembalikan"
     }
   ]
-
   return render_template("my_library.html", books=books)
