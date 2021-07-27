@@ -14,17 +14,17 @@ from werkzeug.utils import secure_filename
 
 bp = Blueprint("books", __name__, url_prefix="/books")
 
+book_repo = BookRepository()
+author_repo = AuthorRepository()
+
 @bp.route("/")
 def index():
-  repo = BookRepository(get_db())
-  books = repo.get_all()
+  books = book_repo.get_all()
 
   return render_template("book/index.html", books=books)
 
 @bp.route("/create", methods=["GET", "POST"])
 def create():
-  cnx = get_db()
-
   if request.method == "POST":
     title = request.form["title"]
     authors = request.form.getlist("authors")
@@ -67,8 +67,7 @@ def create():
       len(authors) == author_empty and 
       image in request.files
     ):
-      bookRepo = BookRepository(cnx)
-      book = bookRepo.create({
+      book = book_repo.create({
         "title": title,
         "published": published,
         "quantity": quantity,
@@ -80,15 +79,12 @@ def create():
 
       return redirect("/books")
 
-  author_repo = AuthorRepository(cnx)
   authors = author_repo.get_all_select(("id", "name"))
 
   return render_template("book/create.html", authors=authors)
 
 @bp.route("/edit/<int:book_id>", methods=["GET", "POST"])
 def edit(book_id):
-  cnx = get_db()
-  book_repo = BookRepository(cnx)
   book = book_repo.filter_by_id(book_id)
 
   if request.method == "POST":
@@ -142,21 +138,17 @@ def edit(book_id):
       if image_exists:
         data["image_url"] = image_url
 
-      bookRepo = BookRepository(cnx)
-      book = bookRepo.update(book_id, data)
+      book = book_repo.update(book_id, data)
       flash("Book is updated", "success")
 
       return redirect("/books")
 
-  author_repo = AuthorRepository(cnx)
   authors = author_repo.get_all_select(("id", "name"))
 
   return render_template("book/edit.html", book=book, authors=authors)
 
 @bp.route("/delete/<int:book_id>", methods=["POST"])
 def delete(book_id):
-  cnx = get_db()
-  book_repo = BookRepository(cnx)
   book = book_repo.filter_by_id(book_id)
   os.remove("".join(
     [app.config["UPLOAD_FOLDER"], "/book/", book["image_url"]]
