@@ -31,7 +31,7 @@ def my_library():
 
   return render_template("my_library.html", books=books)
 
-@app.route("/authors/")
+@app.route("/authors")
 def authors_index():
   authors = [
     {
