@@ -17,7 +17,7 @@ def is_guest(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
     if "user_id" not in session:
-      f(*args, **kwargs)
+      return f(*args, **kwargs)
     return redirect("/")
 
   return decorated_function
@@ -26,11 +26,10 @@ def is_authenticated(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
     if "user_id" in session:
-      if len(g.user) > 0:
-        f(*args, **kwargs)
-      
-      abort(403)
-    redirect("/auth/login")
+      if g.user is not None:
+        return f(*args, **kwargs)
+      return abort(403)
+    return redirect("/auth/login")
 
   return decorated_function
 
@@ -38,11 +37,11 @@ def is_admin(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
     if "user_id" in session:
-      if len(g.user) > 0:
+      if g.user is not None:
         if g.user["role"] == "admin":
-          f(*args, **kwargs)
-        abort(403)
-      redirect("/auth/login")
+          return f(*args, **kwargs)
+        return abort(403)
+      return redirect("/auth/login")
 
   return decorated_function
 
@@ -50,10 +49,10 @@ def is_student(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
     if "user_id" in session:
-      if len(g.user) > 0:
+      if g.user is not None:
         if g.user["role"] == "student":
-          f()
-      abort(403)
-    redirect("/auth/login")
+          return f(*args, **kwargs)
+      return abort(403)
+    return redirect("/auth/login")
 
   return decorated_function
