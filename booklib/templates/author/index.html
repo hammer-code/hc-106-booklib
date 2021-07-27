@@ -2,17 +2,21 @@
 content %}
 <section>
   <h1 class="text-center font-bold text-2xl mb-5">Data Authors</h1>
+  {% if g.user and g.user.role == "admin" %}
   <a
     class="px-4 py-2 bg-blue-500 rounded text-white"
     href="{{ url_for('authors.create') }}"
     >Add new</a
   >
+  {% endif %}
   <table class="mt-5 table-auto w-full border-collapse border border-black">
     <thead>
       <tr>
         <th class="border border-black">#</th>
         <th class="border border-black">Name</th>
+        {% if g.user and g.user.role == "admin" %}
         <th class="border border-black">Action</th>
+        {% endif %}
       </tr>
     </thead>
     <tbody id="list">
@@ -20,6 +24,7 @@ content %}
       <tr>
         <td class="text-center border border-black">{{ loop.index }}</td>
         <td class="border border-black px-2">{{ author.name }}</td>
+        {% if g.user and g.user.role == "admin" %}
         <td class="border border-black px-2">
           <a
             href="{{ url_for('authors.edit', author_id=author.id) }}"
@@ -33,6 +38,7 @@ content %}
             Delete
           </button>
         </td>
+        {% endif %}
       </tr>
       {% endfor %} {% else %}
       <tr>
@@ -44,6 +50,7 @@ content %}
     </tbody>
   </table>
 </section>
+{% if g.user and g.user.role == "admin" %}
 <script>
   const handleDelete = function (e, id) {
     const list = document.getElementById("list");
@@ -60,5 +67,4 @@ content %}
     document.getElementById("delete").submit();
   };
 </script>
-</script>
-{% endblock %}
+{% endif %} {% endblock %}

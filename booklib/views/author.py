@@ -9,7 +9,6 @@ bp = Blueprint("authors", __name__, url_prefix="/authors")
 author_repo = AuthorRepository()
 
 @bp.route("/")
-@is_authenticated
 def index():
   authors = author_repo.get_all()
   return render_template("author/index.html", authors=authors)
