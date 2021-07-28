@@ -3,4 +3,3 @@ venv
 .env
 dbdata
 booklib/static/upload
-.vscode
