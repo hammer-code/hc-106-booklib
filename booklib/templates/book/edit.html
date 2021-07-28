@@ -72,7 +72,7 @@ content %}
         />
       </div>
       <div class="block my-2">
-        <img src="{{ url_for('books.image', filename=book.image_url) }}" alt="{{ book.title }}">
+        <img src="{{ url_for('books.image_display', filename=book.image_url) }}" alt="{{ book.title }}">
       </div>
       <div class="block my-2">
         <label for="image" class="w-full">Image</label>

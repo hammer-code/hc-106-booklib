@@ -1,5 +1,5 @@
-from booklib.main import create_app
 from dotenv import load_dotenv
+from booklib.main import create_app
 
 load_dotenv()
 app = create_app()

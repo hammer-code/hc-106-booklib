@@ -1,6 +1,6 @@
 import click
 from flask.cli import with_appcontext
-from booklib.db import get_db, close_db, init_db
+from booklib.db import close_db, init_db
 
 
 @click.command("init-db")

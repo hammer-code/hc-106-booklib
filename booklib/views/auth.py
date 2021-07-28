@@ -7,7 +7,6 @@ from flask import (
     current_app as app,
 )
 from booklib.repositories import UserRepository, StudentRepository
-from booklib.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 user_repo = UserRepository()
