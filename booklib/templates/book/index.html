@@ -2,13 +2,11 @@
 %}
 <section>
   <h1 class="text-center font-bold text-2xl mb-5">Data Book</h1>
-  {% if g.user and g.user.role == "admin" %}
   <a
     class="px-4 py-2 bg-blue-500 rounded text-white"
     href="{{ url_for('books.create') }}"
     >Add new</a
   >
-  {% endif %}
   <table class="mt-5 table-auto w-full border-collapse border border-black">
     <thead>
       <tr>
@@ -18,9 +16,7 @@
         <th class="border border-black">Author</th>
         <th class="border border-black">Published</th>
         <th class="border border-black">Quantity</th>
-        {% if g.user and g.user.role == "admin" %}
         <th class="border border-black">Action</th>
-        {% endif %}
       </tr>
     </thead>
     <tbody id="list">
@@ -30,7 +26,7 @@
         <td class="border border-black px-2 text-center">
           <img
             class="w-32"
-            src="{{ url_for('books.image', filename=book.image_url) }}"
+            src="{{ url_for('books.image_display', filename=book.image_url) }}"
             alt="{{ book.title }}"
           />
         </td>
@@ -43,7 +39,6 @@
         <td class="border border-black px-2 text-center">
           {{ book.quantity }}
         </td>
-        {% if g.user and g.user.role == "admin" %}
         <td class="border border-black px-2">
           <a
             href="{{ url_for('books.edit', book_id=book.id) }}"
@@ -57,7 +52,6 @@
             Delete
           </button>
         </td>
-        {% endif %}
       </tr>
       {% endfor %} {% else %}
       <tr>
@@ -69,7 +63,6 @@
     </tbody>
   </table>
 </section>
-{% if g.user and g.user.role == "admin" %}
 <script>
   const handleDelete = function (e, id) {
     const list = document.getElementById("list");
@@ -86,4 +79,4 @@
     document.getElementById("delete").submit();
   };
 </script>
-{% endif %} {% endblock %}
+{% endblock %}

@@ -8,11 +8,10 @@ from flask import (
     url_for,
     current_app as app,
 )
-from booklib.db import get_db
-from booklib.repositories import BookRepository, AuthorRepository, BookAuthorRepository
+from werkzeug.utils import secure_filename
+from booklib.repositories import BookRepository, AuthorRepository
 from booklib.utils import generate_random_string, allowed_file, get_extension
 from booklib.utils.auth import is_admin
-from werkzeug.utils import secure_filename
 
 bp = Blueprint("books", __name__, url_prefix="/books")
 book_repo = BookRepository()
@@ -47,22 +46,24 @@ def create():
         if "image" not in request.files:
             flash("Image is required", "error")
         else:
-            image = request.files["image"]
-            if image.filename == "":
+            image_file = request.files["image"]
+            if image_file.filename == "":
                 flash("Image is required", "error")
-            if image and allowed_file(image.filename, {"png", "jpg", "jpeg", "gif"}):
-                filename = secure_filename(image.filename)
+            if image_file and allowed_file(
+                image_file.filename, {"png", "jpg", "jpeg", "gif"}
+            ):
+                filename = secure_filename(image_file.filename)
                 image_url = ".".join(
                     [generate_random_string(16), get_extension(filename)]
                 )
                 folder_path = "".join([app.config["UPLOAD_FOLDER"], "/book/"])
-                image.save(os.path.join(folder_path, image_url))
+                image_file.save(os.path.join(folder_path, image_url))
         if not (
             title
             and published
             and quantity
             and len(authors) == author_empty
-            and image in request.files
+            and image_file in request.files
         ):
             book_repo.create(
                 {
@@ -99,18 +100,18 @@ def edit(book_id):
         if not quantity:
             flash("Quantity is required", "error")
         if "image" in request.files:
-            image = request.files["image"]
+            image_file = request.files["image"]
             if (
-                image.filename != ""
-                and image
-                and allowed_file(image.filename, {"png", "jpg", "jpeg", "gif"})
+                image_file.filename != ""
+                and image_file
+                and allowed_file(image_file.filename, {"png", "jpg", "jpeg", "gif"})
             ):
-                filename = secure_filename(image.filename)
+                filename = secure_filename(image_file.filename)
                 image_url = ".".join(
                     [generate_random_string(16), get_extension(filename)]
                 )
                 folder_path = "".join([os.getenv("UPLOAD_FOLDER"), "/book/"])
-                image.save(os.path.join(folder_path, image_url))
+                image_file.save(os.path.join(folder_path, image_url))
                 os.remove(
                     "".join([os.getenv("UPLOAD_FOLDER"), "/book/", book["image_url"]])
                 )
@@ -141,8 +142,8 @@ def delete(book_id):
     return redirect("/books")
 
 
-@bp.route("/image/<filename>")
-def image(filename):
+@bp.route("/image_display/<filename>")
+def image_display(filename):
     return redirect(
         url_for("static", filename="".join(["upload/book/", filename])), code=301
     )
