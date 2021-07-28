@@ -1,22 +1,16 @@
-{% extends "base.html" %} {% block title %}Authors Edit{% endblock %} {% block
-content %}
+{% extends "base.html" %}
+{% block title %}Authors Edit{% endblock %}
+{% block content %}
 <section>
   <h1 class="text-center font-bold text-2xl mb-5">Edit Author</h1>
   <div class="">
     <form action="" method="post">
       <div class="block my-2">
         <label for="name" class="w-full">Name</label>
-        <input
-          type="text"
-          name="name"
-          class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
-          value="{{ author.name }}"
-        />
+        <input type="text" name="name" class="w-full border border-blue-500 rounded-md py-1 px-2 my-2"
+          value="{{ author.name }}" />
       </div>
-      <button
-        type="submit"
-        class="w-full bg-blue-500 text-white py-2 rounded-md my-2"
-      >
+      <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md my-2">
         Edit
       </button>
     </form>

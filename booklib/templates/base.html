@@ -1,106 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     {% block head %}
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %} Book Library</title>
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='favicon.png') }}"
-      type="image/png"
-      sizes="16x16"
-    />
-    <link
-      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/main.css') }}"
-    />
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png" sizes="16x16" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
     {% endblock %}
-  </head>
-  <body>
+</head>
+
+<body>
     <header>
-      <div class="w-full bg-blue-500 text-white">
-        <div class="flex items-center justify-between max-w-4xl mx-auto py-5">
-          <div class="logo">
-            <a href="{{ url_for('main.index') }}">Book Library</a>
-          </div>
-          <nav class="nav">
-            <ul>
-              <li class="inline-block mr-4">
-                <a href="{{ url_for('main.index') }}">Home</a>
-              </li>
-              {% if g.user and g.user.role == "student" %}
-              <li class="inline-block mr-4">
-                <a href="{{ url_for('main.my_library') }}">My Library</a>
-              </li>
-              {% endif %} {% if g.user and g.user.role == "admin" %}
-              <li class="inline-block mr-4">
-                <a href="{{ url_for('borroweds.index') }}">Borrowed</a>
-              </li>
-              {% endif %}
-              <li class="inline-block mr-4">
-                <a href="{{ url_for('authors.index') }}">Author</a>
-              </li>
-              <li class="inline-block mr-4">
-                <a href="{{ url_for('books.index') }}">Book</a>
-              </li>
-              {% if g.user %}
-              <li class="inline-block">
-                <form
-                  id="logout"
-                  action="{{ url_for('auth.logout') }}"
-                  method="post"
-                >
-                  <a
-                    href="#"
-                    onclick="document.getElementById('logout').submit();"
-                  >
-                    Logout
-                  </a>
-                </form>
-              </li>
-              {% else %}
-              <li class="inline-block mr-4">
-                <a href="{{ url_for('auth.register') }}">Register</a>
-              </li>
-              <li class="inline-block mr-4">
-                <a href="{{ url_for('auth.login') }}">Login</a>
-              </li>
-              {% endif %}
-            </ul>
-          </nav>
+        <div class="w-full bg-blue-500 text-white">
+            <div class="flex items-center justify-between max-w-4xl mx-auto py-5">
+                <div class="logo">
+                    <a href="{{ url_for('main.index') }}">Book Library</a>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li class="inline-block mr-4">
+                            <a href="{{ url_for('main.index') }}">Home</a>
+                        </li>
+                        {% if g.user and g.user.role == "student" %}
+                        <li class="inline-block mr-4">
+                            <a href="{{ url_for('main.my_library') }}">My Library</a>
+                        </li>
+                        {% endif %}
+                        {% if g.user and g.user.role == "admin" %}
+                        <li class="inline-block mr-4">
+                            <a href="{{ url_for('borroweds.index') }}">Borrowed</a>
+                        </li>
+                        {% endif %}
+                        <li class="inline-block mr-4">
+                            <a href="{{ url_for('authors.index') }}">Author</a>
+                        </li>
+                        <li class="inline-block mr-4">
+                            <a href="{{ url_for('books.index') }}">Book</a>
+                        </li>
+                        {% if g.user %}
+                        <li class="inline-block">
+                            <form id="logout" action="{{ url_for('auth.logout') }}" method="post">
+                                <a href="#" onclick="document.getElementById('logout').submit();">
+                                    Logout
+                                </a>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class="inline-block mr-4">
+                            <a href="{{ url_for('auth.register') }}">Register</a>
+                        </li>
+                        <li class="inline-block mr-4">
+                            <a href="{{ url_for('auth.login') }}">Login</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
         </div>
-      </div>
-      {% if g.user %}
-      <div class="w-full bg-gray-200">
-        <div class="flex items-center justify-end max-w-4xl mx-auto py-2">
-          <div>{{ g.user.username }}</div>
+        {% if g.user %}
+        <div class="w-full bg-gray-200">
+            <div class="flex items-center justify-end max-w-4xl mx-auto py-2">
+                <div>{{ g.user.username }}</div>
+            </div>
         </div>
-      </div>
-      {% endif %}
+        {% endif %}
     </header>
     <main class="w-full my-10">
-      <div class="max-w-4xl px-4 lg:px-0 mx-auto">
-        {% block content %}{% endblock %}
-      </div>
-      {% with messages = get_flashed_messages(with_categories=true) %} {% if
-      messages %}
-      <div class="max-w-4xl px-4 lg:px-0 mx-auto my-5">
-        <ul class="w-full">
-          {% for category, message in messages %}
-          <li class="py-2 px-2 w-full {{ category }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %} {% endwith %}
+        <div class="max-w-4xl px-4 lg:px-0 mx-auto">
+            {% block content %}{% endblock %}
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="max-w-4xl px-4 lg:px-0 mx-auto my-5">
+            <ul class="w-full">
+                {% for category, message in messages %}
+                <li class="py-2 px-2 w-full {{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
     </main>
     <footer class="w-full text-center my-10">
-      &copy; Copyright 2021 by you.
+        &copy; Copyright 2021 by you.
     </footer>
-  </body>
+</body>
+
 </html>
