@@ -8,7 +8,8 @@ def index():
     books = [
         {
             "id": 1,
-            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1287493789l/179133.jpg",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com"
+            + "/books/1287493789l/179133.jpg",
             "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
             "author": "Evans, Eric",
             "published": "20 Agustus 2003",
@@ -23,7 +24,8 @@ def my_library():
     books = [
         {
             "id": 1,
-            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1287493789l/179133.jpg",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com"
+            + "/books/1287493789l/179133.jpg",
             "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
             "author": "Evans, Eric",
             "published": "20 Agustus 2003",
