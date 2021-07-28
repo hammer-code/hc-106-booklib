@@ -6,6 +6,7 @@ class Repository:
         self.cnx = cnx
         self.table_name = ""
         self.columns = ()
+        self.cursor = None
 
     def execute(self, query, params=None):
         self.cursor = self.cnx.cursor(buffered=True)
@@ -43,9 +44,9 @@ class Repository:
         query = "SELECT {} FROM {}".format(", ".join(select), self.table_name)
         return self.execute(query).to_list(select)
 
-    def filter_by_id(self, id):
+    def filter_by_id(self, _id):
         query = "SELECT * FROM {} WHERE id=%s".format(self.table_name)
-        return self.execute(query, (id,)).to_item(self.columns)
+        return self.execute(query, (_id,)).to_item(self.columns)
 
     def filter_by(self, data):
         filter_query = " OR ".join(["".join([key, " = %s"]) for key in data])
@@ -63,15 +64,15 @@ class Repository:
         self.execute(query, params).commit()
         return self.filter_by_id(self.cursor.lastrowid)
 
-    def update(self, id, data):
+    def update(self, _id, data):
         set_query = ", ".join(["".join([key, " = %s"]) for key in data])
         params = list(data.values())
-        params.append(id)
+        params.append(_id)
         params = tuple(params)
         query = "UPDATE {} SET {} WHERE id = %s".format(self.table_name, set_query)
         self.execute(query, params).commit()
-        return self.filter_by_id(id)
+        return self.filter_by_id(_id)
 
-    def delete(self, id):
+    def delete(self, _id):
         query = "DELETE FROM {} WHERE id = %s".format(self.table_name)
-        return self.execute(query, (id,)).commit()
+        return self.execute(query, (_id,)).commit()

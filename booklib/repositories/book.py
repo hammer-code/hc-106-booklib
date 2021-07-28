@@ -38,6 +38,7 @@ class BookRepository(Repository):
             if author_id != "":
                 data = {"book_id": book["id"], "author_id": author_id}
                 book_author_repo.create(data)
+
         return book
 
     def update(self, book_id, data):
@@ -46,15 +47,18 @@ class BookRepository(Repository):
         book = super().update(book_id, data)
         book_author_repo = BookAuthorRepository()
         book_authors = book_author_repo.filter_by({"book_id": book_id})
-        [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
+        for book_author in book_authors:
+            book_author_repo.delete(book_author["id"])
         for author_id in authors:
             if author_id != "":
                 data = {"book_id": book["id"], "author_id": author_id}
                 book_author_repo.create(data)
+
         return book
 
     def delete(self, book_id):
         book_author_repo = BookAuthorRepository()
         book_authors = book_author_repo.filter_by({"book_id": book_id})
-        [book_author_repo.delete(book_author["id"]) for book_author in book_authors]
+        for book_author in book_authors:
+            book_author_repo.delete(book_author["id"])
         super().delete(book_id)
