@@ -3,7 +3,6 @@ import mysql.connector
 from flask import g, current_app
 from werkzeug.local import LocalProxy
 
-
 db_config = {
     "user": os.getenv("MYSQL_USER"),
     "password": os.getenv("MYSQL_PASSWORD"),
@@ -14,22 +13,21 @@ db_config = {
 
 def get_db():
     if "cnx" not in g:
-        cnx = mysql.connector.connect(**db_config)
-        g.cnx = cnx
+        g.cnx = mysql.connector.connect(**db_config)
     return g.cnx
 
 
-def close_db(e=None):
-    db = g.pop("cnx", None)
-    if db is not None:
-        db.close()
+def close_db(err=None):
+    if not err:
+        conn = g.pop("cnx", None)
+        if conn is not None:
+            conn.close()
 
 
 def init_db():
-    cnx = get_db()
     cursor = cnx.cursor()
-    with current_app.open_resource("schema.sql") as f:
-        for result in cursor.execute(f.read().decode("utf8"), multi=True):
+    with current_app.open_resource("schema.sql") as line:
+        for result in cursor.execute(line.read().decode("utf8"), multi=True):
             print(result)
 
 
