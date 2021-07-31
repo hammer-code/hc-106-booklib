@@ -31,7 +31,7 @@ def register():
         if not password:
             flash("Password is required", "error")
         if student_name and student_number and password:
-            user_exists = user_repo.filter({"username": student_number})
+            user_exists = user_repo.filter_by({"username": student_number})
             if not user_exists:
                 user = user_repo.create(
                     {
