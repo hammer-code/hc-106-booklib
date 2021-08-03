@@ -10,23 +10,7 @@ borrowed_repo = BorrowedRepository()
 
 @bp.route("/")
 def index():
-    borroweds = [
-        {
-            "id": 1,
-            "receipt_number": "ABCDE12345",
-            "book": {
-                "id": 1,
-                "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com"
-                + "/books/1287493789l/179133.jpg",
-                "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
-                "author": "Evans, Eric",
-                "published": "20 Agustus 2003",
-                "quantity": 1,
-            },
-            "student": {"id": 1, "name": "Milch", "number": "ABCDEF"},
-            "created_at": "2021-07-01",
-        }
-    ]
+    borroweds = borrowed_repo.get_all()
     return render_template("borrowed/index.html", borroweds=borroweds)
 
 
