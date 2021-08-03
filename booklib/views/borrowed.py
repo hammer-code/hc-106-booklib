@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify, flash, redirect
 from booklib.repositories import BookRepository, StudentRepository, BorrowedRepository
 from booklib.utils import generate_random_string
+from booklib.utils.auth import is_admin
 
 bp = Blueprint("borroweds", __name__, url_prefix="/borroweds")
 book_repo = BookRepository()
@@ -9,12 +10,14 @@ borrowed_repo = BorrowedRepository()
 
 
 @bp.route("/")
+@is_admin
 def index():
     borroweds = borrowed_repo.get_all()
     return render_template("borrowed/index.html", borroweds=borroweds)
 
 
 @bp.route("/create", methods=["GET", "POST"])
+@is_admin
 def create():
     if request.method == "POST":
         book_title = request.form["book"]
@@ -42,15 +45,14 @@ def create():
 
 
 @bp.route("/returned/<int:borrowed_id>", methods=["GET", "POST"])
+@is_admin
 def returned(borrowed_id):
     if request.method == "POST":
         borrowed = borrowed_repo.filter_by_id(borrowed_id)
         if not borrowed["returned"]:
             borrowed_repo.update(borrowed_id, {"returned": True})
             book = book_repo.filter_by_id(borrowed["book_id"])
-            book_repo.update(
-                borrowed["book_id"], {"quantity": book["quantity"] + 1}
-            )
+            book_repo.update(borrowed["book_id"], {"quantity": book["quantity"] + 1})
             flash("Book is returned", "success")
             return redirect("/borroweds")
         flash("Book had been returned", "error")
@@ -58,6 +60,7 @@ def returned(borrowed_id):
 
 
 @bp.route("/delete/<int:borrowed_id>", methods=["GET", "POST"])
+@is_admin
 def delete(borrowed_id):
     borrowed = borrowed_repo.filter_by_id(borrowed_id)
     if not borrowed["returned"]:
