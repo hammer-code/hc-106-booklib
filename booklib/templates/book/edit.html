@@ -13,6 +13,7 @@
             <div class="block my-2">
                 <label for="authors" class="w-full">Author</label>
                 <div id="authorsWrapper">
+                    {% if book.authors %}
                     {% for book_author in book.authors %}
                     {% if loop.first %}
                     <div class="flex w-full items-center">
@@ -44,6 +45,21 @@
                     </div>
                     {% endif %}
                     {% endfor %}
+                    {% else %}
+                    <div class="flex w-full items-center">
+                        <select name="authors" class="w-full border border-blue-500 rounded-md py-1 px-2 my-2">
+                            <option value=""></option>
+                            {% for author in authors %}
+                            <option value="{{ author.id }}">
+                                {{ author.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <a href="#" class="px-2 text-green-400" onclick="addAuthorField()">
+                            +
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="block my-2">

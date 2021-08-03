@@ -5,10 +5,14 @@
     {% if books %}
     {% for book in books %}
     <article class="flex">
-        <img class="w-32" src="{{ book.image_url }}" alt="{{ book.title }}" />
+        <img class="w-32" src="{{ url_for('books.image_display', filename=book.image_url) }}" alt="{{ book.title }}" />
         <div class="ml-4">
             <h2 class="font-bold text-2xl">{{ book.title }}</h2>
-            <p>Penulis: {{ book.author }}</p>
+            <p>Penulis:
+                {% for author in book.authors %}
+                {{ author.name }}{% if (not loop.last) %}, {% endif %}
+                {% endfor%}
+            </p>
             <p>Tanggal Terbit: {{ book.published }}</p>
             <p>Jumlah Tersedia: {{ book.quantity }}</p>
         </div>
