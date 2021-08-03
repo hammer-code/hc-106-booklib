@@ -9,7 +9,7 @@ CREATE DATABASE IF NOT EXISTS `booklib` /*!40100 DEFAULT CHARACTER SET latin1 */
 USE `booklib`;
 
 CREATE TABLE IF NOT EXISTS `authors` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `books` (
 
 
 CREATE TABLE IF NOT EXISTS `book_authors` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `book_id` bigint(20) unsigned NOT NULL,
-  `author_id` bigint(20) NOT NULL,
+  `author_id` bigint(20) unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -44,12 +44,14 @@ CREATE TABLE IF NOT EXISTS `book_authors` (
 
 
 CREATE TABLE IF NOT EXISTS `borrowed` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `receipt_number` varchar(255) NOT NULL,
   `book_id` bigint(20) unsigned NOT NULL,
-  `student_id` bigint(20) NOT NULL,
+  `student_id` bigint(20) unsigned NOT NULL,
   `returned` tinyint(4) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
   KEY `book_id` (`book_id`),
   KEY `student_id` (`student_id`),
   CONSTRAINT `borrowed_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
@@ -58,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `borrowed` (
 
 
 CREATE TABLE IF NOT EXISTS `students` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `number` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -72,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `students` (
 
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` varchar(255) NOT NULL,
