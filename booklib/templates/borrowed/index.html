@@ -29,7 +29,11 @@
                 <td class="border border-black px-2 text-center">
                     {{ borrowed.created_at }}
                 </td>
-                <td class="border border-black px-2 text-center"></td>
+                <td class="border border-black px-2 text-center">
+                    {% if borrowed.returned %}
+                    {{ borrowed.updated_at }}
+                    {% endif %}
+                </td>
                 <td class="border border-black px-2">
                     <button class="text-blue-500" onclick="handleReturn(event, {{ borrowed.id }})">
                         Return
