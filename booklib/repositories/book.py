@@ -20,12 +20,14 @@ class BookRepository(Repository):
     def transform(self, columns, row):
         result = super().transform(columns, row)
         book_author_repo = BookAuthorRepository()
-        book_authors = book_author_repo.filter_by({"book_id": row[0]})
+        book_authors = book_author_repo.filter_by({"book_id": result["id"]})
         author_repo = AuthorRepository()
-        authors = [
-            author_repo.filter_by_id(book_author["author_id"])
-            for book_author in book_authors
-        ]
+        authors = list(
+            map(
+                lambda book_author: author_repo.filter_by_id(book_author["author_id"]),
+                book_authors,
+            )
+        )
         result["authors"] = authors
         return result
 
@@ -42,14 +44,16 @@ class BookRepository(Repository):
         return book
 
     def update(self, book_id, data):
+        authors = []
+        if "authors" in data:
+            authors = data["authors"]
+            del data["authors"]
         book = super().update(book_id, data)
         book_author_repo = BookAuthorRepository()
         book_authors = book_author_repo.filter_by({"book_id": book_id})
         for book_author in book_authors:
             book_author_repo.delete(book_author["id"])
-        if "authors" in data:
-            authors = data["authors"]
-            del data["authors"]
+        if authors:
             for author_id in authors:
                 if author_id != "":
                     data = {"book_id": book["id"], "author_id": author_id}
