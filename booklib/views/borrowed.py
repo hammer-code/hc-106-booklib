@@ -39,3 +39,19 @@ def returned():
 @bp.route("/delete/<int:borrowed_id>")
 def delete():
     pass
+
+
+@bp.route("/books")
+def books_search():
+    title = request.args.get("title")
+    book_repo = BookRepository()
+    books = book_repo.filter_like({"title": title})[:5]
+    return jsonify(books)
+
+
+@bp.route("/students")
+def students_search():
+    number = request.args.get("number")
+    student_repo = StudentRepository()
+    students = student_repo.filter_like({"number": number})[:5]
+    return jsonify(students)
