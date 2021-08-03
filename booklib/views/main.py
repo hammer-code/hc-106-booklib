@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, g
 from booklib.utils.auth import is_student
-from booklib.repositories import BookRepository
+from booklib.repositories import BookRepository, StudentRepository, BorrowedRepository
 
 bp = Blueprint("main", __name__)
 book_repo = BookRepository()
+student_repo = StudentRepository()
+borrowed_repo = BorrowedRepository()
 
 
 @bp.route("/")
@@ -15,15 +17,8 @@ def index():
 @bp.route("/my_library")
 @is_student
 def my_library():
-    books = [
-        {
-            "id": 1,
-            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com"
-            + "/books/1287493789l/179133.jpg",
-            "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
-            "author": "Evans, Eric",
-            "published": "20 Agustus 2003",
-            "status": "Dikembalikan",
-        }
-    ]
-    return render_template("my_library.html", books=books)
+    student = student_repo.filter_by({"user_id": g.user["id"]})
+    student = student[0]
+    borroweds = borrowed_repo.filter_by({"student_id": student["id"]})
+
+    return render_template("my_library.html", borroweds=borroweds)
