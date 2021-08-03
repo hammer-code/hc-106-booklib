@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, jsonify
+from booklib.repositories import BookRepository, StudentRepository
 
 bp = Blueprint("borroweds", __name__, url_prefix="/borroweds")
 
@@ -11,7 +12,8 @@ def index():
             "receipt_number": "ABCDE12345",
             "book": {
                 "id": 1,
-                "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1287493789l/179133.jpg",
+                "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com"
+                + "/books/1287493789l/179133.jpg",
                 "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
                 "author": "Evans, Eric",
                 "published": "20 Agustus 2003",
