@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `book_authors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-CREATE TABLE IF NOT EXISTS `borrowed` (
+CREATE TABLE IF NOT EXISTS `borroweds` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `receipt_number` varchar(255) NOT NULL,
   `book_id` bigint(20) unsigned NOT NULL,
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS `borrowed` (
   PRIMARY KEY (`id`),
   KEY `book_id` (`book_id`),
   KEY `student_id` (`student_id`),
-  CONSTRAINT `borrowed_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
-  CONSTRAINT `borrowed_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`)
+  CONSTRAINT `borroweds_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
+  CONSTRAINT `borroweds_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
