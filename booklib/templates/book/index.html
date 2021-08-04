@@ -2,11 +2,7 @@
 %}
 <section>
   <h1 class="text-center font-bold text-2xl mb-5">Data Book</h1>
-  <a
-    class="px-4 py-2 bg-blue-500 rounded text-white"
-    href="{{ url_for('books.create') }}"
-    >Add new</a
-  >
+  <a class="px-4 py-2 bg-blue-500 rounded text-white" href="{{ url_for('books.create') }}">Add new</a>
   <table class="mt-5 table-auto w-full border-collapse border border-black">
     <thead>
       <tr>
@@ -27,21 +23,18 @@
           <img class="w-32" src="{{ book.image_url }}" alt="{{ book.title }}" />
         </td>
         <td class="border border-black px-2">{{ book.title }}</td>
-        <td class="border border-black px-2">{{ book.author }}</td>
+        <td class="border border-black px-2">
+          {% for author in book.authors %}
+          {{ author.name }}{% if (not loop.last) %}, {% endif %}
+          {% endfor %}
+        </td>
         <td class="border border-black px-2">{{ book.published }}</td>
         <td class="border border-black px-2 text-center">
           {{ book.quantity }}
         </td>
         <td class="border border-black px-2">
-          <a
-            href="{{ url_for('books.edit', book_id=book.id) }}"
-            class="text-blue-500"
-            >Edit</a
-          >
-          <button
-            class="text-red-500"
-            onclick="handleDelete(event, {{ book.id }})"
-          >
+          <a href="{{ url_for('books.edit', book_id=book.id) }}" class="text-blue-500">Edit</a>
+          <button class="text-red-500" onclick="handleDelete(event, {{ book.id }})">
             Delete
           </button>
         </td>
