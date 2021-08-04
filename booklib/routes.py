@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, jsonify
 from booklib import app
 
 
@@ -147,6 +147,28 @@ def borroweds_returned():
 @app.route("/borroweds/delete/<int:borrowed_id>")
 def borroweds_delete():
     pass
+
+
+@app.route("/borroweds/books")
+def borroweds_books_search():
+    books = [
+        {
+            "id": 1,
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com"
+            "/books/1287493789l/179133.jpg",
+            "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
+            "authors": [{"id": 1, "name": "Evans"}, {"id": 2, "name": "Eric"}],
+            "published": "20 Agustus 2003",
+            "quantity": 1,
+        }
+    ]
+    return jsonify(books)
+
+
+@app.route("/borroweds/students")
+def borroweds_students_search():
+    students = [{"number": "ABCDE1234", "name": "Hammer Code"}]
+    return jsonify(students)
 
 
 @app.route("/register")
