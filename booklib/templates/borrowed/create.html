@@ -7,11 +7,13 @@
         <form action="" method="post">
             <div class="block my-2">
                 <label for="book" class="w-full">Book</label>
-                <input type="text" name="book" class="w-full border border-blue-500 rounded-md py-1 px-2 my-2" />
+                <input id="book" type="text" name="book"
+                    class="w-full border border-blue-500 rounded-md py-1 px-2 my-2" />
             </div>
-            <div class="block my-2">
+            <div class=" block my-2">
                 <label for="student" class="w-full">Student</label>
-                <input type="text" name="student" class="w-full border border-blue-500 rounded-md py-1 px-2 my-2" />
+                <input id="student" type="text" name="student"
+                    class="w-full border border-blue-500 rounded-md py-1 px-2 my-2" />
             </div>
             <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md my-2">
                 Save
@@ -19,4 +21,45 @@
         </form>
     </div>
 </section>
+<script>
+    document.getElementById("book").addEventListener("input", function (e) {
+        renderSuggestions(this, "bookSuggestions", "/borroweds/books?title=", "title", "book-suggestion")
+    })
+    document.getElementById("student").addEventListener("input", function (e) {
+        renderSuggestions(this, "studentSuggestions", "/borroweds/students?number=", "number", "student-suggestion")
+    })
+
+    function renderSuggestions(inputEl, suggestionId, fetchUrl, ref, refId) {
+        deleteSuggestions(refId)
+        const suggestionsExist = document.getElementById(suggestionId)
+        if (!suggestionsExist) {
+            const suggestions = document.createElement("div")
+            suggestions.setAttribute("class", "w-full")
+            suggestions.setAttribute("id", suggestionId)
+            inputEl.parentNode.appendChild(suggestions)
+        }
+        const suggestions = document.getElementById(suggestionId)
+        fetch(`${fetchUrl}${inputEl.value}`)
+            .then(response => response.json())
+            .then((data) => {
+                for (let i = 0; i < data.length; i++) {
+                    const dataList = document.createElement("div")
+                    dataList.setAttribute("class", "w-full py-2 px-2 border border-black " + refId)
+                    dataList.addEventListener("click", function () {
+                        inputEl.value = this.innerHTML
+                        deleteSuggestions(refId)
+                    })
+                    dataList.innerHTML = data[i][ref]
+                    suggestions.appendChild(dataList)
+                }
+            })
+    }
+
+    function deleteSuggestions(refId) {
+        suggestions = document.getElementsByClassName(refId)
+        for (let i = 0; i < suggestions.length; i++) {
+            suggestions[i].parentNode.removeChild(suggestions[i])
+        }
+    }
+</script>
 {% endblock %}
