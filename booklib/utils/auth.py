@@ -9,9 +9,14 @@ def load_user(app):
     @app.before_request
     def before_request():
         if "user_id" in session:
-            user = user_repo.filter_by_id(session["user_id"])
-            del user["password"]
-            g.user = user
+            try:
+                user = user_repo.filter_by_id(session["user_id"])
+                if user:
+                    del user["password"]
+                    g.user = user
+            except:
+                g.pop("user", None)
+                session.pop("user_id", None)
 
 
 def is_guest(func):
