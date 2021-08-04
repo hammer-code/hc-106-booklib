@@ -128,6 +128,8 @@ def borroweds_index():
             },
             "student": {"id": 1, "name": "Milch", "number": "ABCDEF"},
             "created_at": "2021-07-01",
+            "updated_at": "2021-08-01",
+            "returned": 1,
         }
     ]
 
