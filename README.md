@@ -12,7 +12,7 @@ The goal of this class is to make the participants know how to develop a simple 
 
 ## Requirements
 
--   python 3.9+
+-   python 3.9
 -   pipenv
 
 ## Development
