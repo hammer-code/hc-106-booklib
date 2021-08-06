@@ -9,6 +9,7 @@ mysql-connector-python = "*"
 python-dotenv = "*"
 flask-bcrypt = "*"
 black = "*"
+lock = "*"
 
 [dev-packages]
 pylint = "*"
@@ -16,3 +17,6 @@ flake8 = "*"
 
 [requires]
 python_version = "3.9.6"
+
+[pipenv]
+allow_prereleases = true
