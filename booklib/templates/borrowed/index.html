@@ -16,7 +16,8 @@ content %}
             </tr>
         </thead>
         <tbody id="list">
-            {% if borroweds %} {% for borrowed in borroweds %}
+            {% if borroweds %}
+            {% for borrowed in borroweds %}
             <tr>
                 <td class="text-center border border-black">{{ loop.index }}</td>
                 <td class="text-center border border-black">
@@ -41,7 +42,8 @@ content %}
                     </button>
                 </td>
             </tr>
-            {% endfor %} {% else %}
+            {% endfor %}
+            {% else %}
             <tr>
                 <td class="border border-black px-2 text-center" colspan="6">
                     Data is empty
@@ -59,11 +61,11 @@ content %}
         }
 
         const form = document.createElement("form");
-        form.id = "delete";
+        form.id = "returned";
         form.action = `/borroweds/returned/${id}`;
         form.method = "post";
         document.body.appendChild(form);
-        document.getElementById("delete").submit();
+        document.getElementById("returned").submit();
     };
 
     const handleDelete = function (e, id) {
