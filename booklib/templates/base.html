@@ -25,23 +25,18 @@
                         <li class="inline-block mr-4">
                             <a href="{{ url_for('main.index') }}">Home</a>
                         </li>
-                        {% if g.user and g.user.role == "student" %}
                         <li class="inline-block mr-4">
                             <a href="{{ url_for('main.my_library') }}">My Library</a>
                         </li>
-                        {% endif %}
-                        {% if g.user and g.user.role == "admin" %}
                         <li class="inline-block mr-4">
                             <a href="{{ url_for('borroweds.index') }}">Borrowed</a>
                         </li>
-                        {% endif %}
                         <li class="inline-block mr-4">
                             <a href="{{ url_for('authors.index') }}">Author</a>
                         </li>
                         <li class="inline-block mr-4">
                             <a href="{{ url_for('books.index') }}">Book</a>
                         </li>
-                        {% if g.user %}
                         <li class="inline-block">
                             <form id="logout" action="{{ url_for('auth.logout') }}" method="post">
                                 <a href="#" onclick="document.getElementById('logout').submit();">
@@ -49,14 +44,12 @@
                                 </a>
                             </form>
                         </li>
-                        {% else %}
                         <li class="inline-block mr-4">
                             <a href="{{ url_for('auth.register') }}">Register</a>
                         </li>
                         <li class="inline-block mr-4">
                             <a href="{{ url_for('auth.login') }}">Login</a>
                         </li>
-                        {% endif %}
                     </ul>
                 </nav>
             </div>

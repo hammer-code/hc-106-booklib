@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, flash
 from booklib.repositories import AuthorRepository
-from booklib.utils.auth import is_authenticated, is_admin, is_student
 
 
 bp = Blueprint("authors", __name__, url_prefix="/authors")
@@ -14,7 +13,6 @@ def index():
 
 
 @bp.route("/create", methods=["GET", "POST"])
-@is_admin
 def create():
     if request.method == "POST":
         name = request.form["name"]
@@ -28,7 +26,6 @@ def create():
 
 
 @bp.route("/edit/<int:author_id>", methods=["GET", "POST"])
-@is_admin
 def edit(author_id):
     if request.method == "POST":
         name = request.form["name"]
@@ -43,7 +40,6 @@ def edit(author_id):
 
 
 @bp.route("/delete/<int:author_id>", methods=["POST"])
-@is_admin
 def delete(author_id):
     author_repo.delete(author_id)
     flash("Author is deleted", "success")

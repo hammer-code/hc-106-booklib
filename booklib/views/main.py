@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template
-from booklib.utils.auth import is_student
 
 bp = Blueprint("main", __name__)
 
@@ -21,7 +20,6 @@ def index():
 
 
 @bp.route("/my_library")
-@is_student
 def my_library():
     books = [
         {

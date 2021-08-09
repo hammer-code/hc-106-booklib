@@ -9,7 +9,6 @@ from flask import (
     g,
 )
 from booklib.repositories import UserRepository, StudentRepository
-from booklib.utils.auth import is_guest, is_authenticated
 
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
@@ -18,7 +17,6 @@ student_repo = StudentRepository()
 
 
 @bp.route("/register", methods=["GET", "POST"])
-@is_guest
 def register():
     if request.method == "POST":
         student_name = request.form["name"]
@@ -60,7 +58,6 @@ def register():
 
 
 @bp.route("/login", methods=["GET", "POST"])
-@is_guest
 def login():
     if request.method == "POST":
         username = request.form["username"]
@@ -93,7 +90,6 @@ def login():
 
 
 @bp.route("/logout", methods=["GET", "POST"])
-@is_authenticated
 def logout():
     g.pop("user", None)
     session.pop("user_id", None)

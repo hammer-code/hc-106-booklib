@@ -11,7 +11,6 @@ from flask import (
 from werkzeug.utils import secure_filename
 from booklib.repositories import BookRepository, AuthorRepository
 from booklib.utils import generate_random_string, allowed_file, get_extension
-from booklib.utils.auth import is_admin
 
 bp = Blueprint("books", __name__, url_prefix="/books")
 book_repo = BookRepository()
@@ -25,7 +24,6 @@ def index():
 
 
 @bp.route("/create", methods=["GET", "POST"])
-@is_admin
 def create():
     if request.method == "POST":
         title = request.form["title"]
@@ -81,7 +79,6 @@ def create():
 
 
 @bp.route("/edit/<int:book_id>", methods=["GET", "POST"])
-@is_admin
 def edit(book_id):
     book = book_repo.filter_by_id(book_id)
     if request.method == "POST":
@@ -133,7 +130,6 @@ def edit(book_id):
 
 
 @bp.route("/delete/<int:book_id>", methods=["POST"])
-@is_admin
 def delete(book_id):
     book = book_repo.filter_by_id(book_id)
     os.remove("".join([app.config["UPLOAD_FOLDER"], "/book/", book["image_url"]]))
