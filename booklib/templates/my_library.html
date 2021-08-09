@@ -2,30 +2,30 @@
 {% block title %}{% endblock %}
 {% block content %}
 <section class="max-w-4xl mx-auto">
-  {% if borroweds %} {% for borrowed in borroweds %}
-  <article class="flex mb-5">
-    <img class="w-32" src="{{ url_for('books.image_display', filename=borrowed.book.image_url) }}"
-      alt="{{ borrowed.book.title }}" />
-    <div class="ml-4">
-      <h2 class="font-bold text-2xl">{{ borrowed.book.title }}</h2>
-      <p>Penulis:
-        {% for author in borrowed.book.authors %}
-        {{ author.name }}{% if (not loop.last) %}, {% endif %}
-        {% endfor%}
-      </p>
-      <p>Tanggal Terbit: {{ borrowed.book.published }}</p>
-      {% if borrowed.returned %}
-      <p class="text-green-500">Dikembalikan</p>
-      {% else %}
-      <p class="text-yellow-500">Masih dipinjam</p>
-      {% endif %}
-    </div>
-  </article>
-  {% endfor %}
-  {% else %}
-  <article class="flex">
-    <h3 class="w-full text-center text-2xl">Data is empty</h3>
-  </article>
-  {% endif %}
+    {% if borroweds %} {% for borrowed in borroweds %}
+    <article class="flex mb-5">
+        <img class="w-32" src="{{ url_for('books.image_display', filename=borrowed.book.image_url) }}"
+            alt="{{ borrowed.book.title }}" />
+        <div class="ml-4">
+            <h2 class="font-bold text-2xl">{{ borrowed.book.title }}</h2>
+            <p>Penulis:
+                {% for author in borrowed.book.authors %}
+                {{ author.name }}{% if (not loop.last) %}, {% endif %}
+                {% endfor%}
+            </p>
+            <p>Tanggal Terbit: {{ borrowed.book.published }}</p>
+            {% if borrowed.returned %}
+            <p class="text-green-500">Dikembalikan</p>
+            {% else %}
+            <p class="text-yellow-500">Masih dipinjam</p>
+            {% endif %}
+        </div>
+    </article>
+    {% endfor %}
+    {% else %}
+    <article class="flex">
+        <h3 class="w-full text-center text-2xl">Data is empty</h3>
+    </article>
+    {% endif %}
 </section>
 {% endblock %}
