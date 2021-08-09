@@ -25,7 +25,6 @@ def register():
             flash("Student number is required", "error")
         if not password:
             flash("Password is required", "error")
-
         if student_name and student_number and password:
             user_exists = user_repo.filter_by({"username": student_number})
             if not user_exists:
@@ -58,14 +57,12 @@ def login():
         password = request.form["password"]
         if not username:
             flash("Username is required", "error")
-
         if not password:
             flash("Password is required", "error")
-
         if username and password:
-            attempted_user = user_repo.filter_by({"username": username})[0]
-
+            attempted_user = user_repo.filter_by({"username": username})
             if attempted_user:
+                attempted_user = attempted_user[0]
                 password_check = app.bcrypt.check_password_hash(
                     attempted_user["password"], password
                 )
@@ -78,7 +75,6 @@ def login():
                         return redirect("/my_library")
                     elif attempted_user["role"] == "admin":
                         return redirect("/borroweds")
-
             flash("Username or password false")
 
     return render_template("auth/login.html")
